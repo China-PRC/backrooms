@@ -1,0 +1,132 @@
+<!-- 后室主题网站首页 -->
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后室 Backrooms</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #181818 url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: #f5f5f5;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .navbar {
+            width: 100%;
+            background: rgba(24,24,24,0.95);
+            padding: 12px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            text-align: center;
+            z-index: 100;
+        }
+        .navbar a {
+            color: #ffd700;
+            text-decoration: none;
+            margin: 0 18px;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+        .navbar a:hover {
+            color: #fffbe0;
+        }
+        .container {
+            background: rgba(24,24,24,0.85);
+            padding: 40px 32px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.7);
+            text-align: center;
+            max-width: 400px;
+            margin-top: 80px;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 16px;
+            letter-spacing: 2px;
+        }
+        p {
+            font-size: 1.1em;
+            margin-bottom: 32px;
+        }
+        button {
+            background: #ffd700;
+            color: #181818;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #ffec80;
+        }
+        .message {
+            margin-top: 24px;
+            color: #ffd700;
+            font-size: 1.2em;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="index.html">首页</a>
+        <a href="levels.html">关卡介绍</a>
+        <a href="entities.html">怪物百科</a>
+        <a href="survival.html">生存指南</a>
+        <a href="contact.html">留言</a>
+    </div>
+    <div class="container" id="container">
+        <!-- 内容将由JS自动填充 -->
+    </div>
+    <footer style="margin-top:40px;color:#ffd700;text-align:center;opacity:0.7;">
+        &copy; 2025 后室主题网站 | 灵感源自Backrooms传说
+    </footer>
+    <script>
+        function checkServer() {
+            if (location.protocol === 'file:') {
+                document.getElementById('container').innerHTML = '<h1>后室 Backrooms</h1><div style="color:#ffd700;">检测到您直接用文件方式打开网页。请使用本地服务器（如 VS Code Live Server、Python SimpleHTTPServer）访问本网站，否则内容无法正常加载。</div>';
+                return false;
+            }
+            return true;
+        }
+        async function loadHomeContent() {
+            if (!checkServer()) return;
+            try {
+                const res = await fetch('content/home.txt');
+                const text = await res.text();
+                const container = document.getElementById('container');
+                // 解析首页内容
+                const [intro, tipsBlock, copyrightBlock] = text.split(/\n\n+/);
+                let html = '<h1>后室 Backrooms</h1>';
+                html += `<p>${intro.replace(/\n/g,'<br>')}</p>`;
+                html += `<button onclick='showRandomTip()'>进入后室</button>`;
+                html += `<div class='message' id='msg'></div>`;
+                container.innerHTML = html;
+                // 解析提示
+                window.homeTips = tipsBlock.split('\n').filter(l => l && !l.includes('后室主题网站首页内容：') && !l.includes('后室提示：'));
+            } catch (e) {
+                document.getElementById('container').innerHTML = '<h1>后室 Backrooms</h1><div style="color:#ffd700;">内容加载失败，请确保通过本地服务器访问。</div>';
+            }
+        }
+        function showRandomTip() {
+            const tips = window.homeTips || ['你已进入后室，祝你好运……'];
+            const msg = document.getElementById('msg');
+            msg.style.display = 'block';
+            msg.textContent = tips[Math.floor(Math.random() * tips.length)];
+        }
+        window.onload = loadHomeContent;
+    </script>
+</body>
+</html>
