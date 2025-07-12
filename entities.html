@@ -1,0 +1,93 @@
+<!-- 后室怪物百科页面 -->
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>怪物百科 - 后室 Backrooms</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #181818 url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: #f5f5f5;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            min-height: 100vh;
+        }
+        .navbar {
+            width: 100%;
+            background: rgba(24,24,24,0.95);
+            padding: 12px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            text-align: center;
+            z-index: 100;
+        }
+        .navbar a {
+            color: #ffd700;
+            text-decoration: none;
+            margin: 0 18px;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+        .navbar a:hover {
+            color: #fffbe0;
+        }
+        .container {
+            background: rgba(24,24,24,0.85);
+            padding: 40px 32px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.7);
+            text-align: left;
+            max-width: 600px;
+            margin: 80px auto 0 auto;
+        }
+        h1 {
+            font-size: 2.2em;
+            margin-bottom: 16px;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+        .entity {
+            margin-bottom: 32px;
+        }
+        .entity-title {
+            color: #ffd700;
+            font-size: 1.3em;
+            margin-bottom: 8px;
+        }
+        .entity-desc {
+            font-size: 1em;
+            color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="index.html">首页</a>
+        <a href="levels.html">关卡介绍</a>
+        <a href="entities.html">怪物百科</a>
+        <a href="survival.html">生存指南</a>
+        <a href="contact.html">留言</a>
+    </div>
+    <div class="container">
+        <h1>怪物百科</h1>
+        <div class="entity">
+            <div class="entity-title">实体 3 - 笑面人</div>
+            <div class="entity-desc">外表为人类，脸上始终带着诡异的微笑，极具危险性。</div>
+        </div>
+        <div class="entity">
+            <div class="entity-title">实体 10 - 漏水者</div>
+            <div class="entity-desc">常见于潮湿区域，行动迅速，攻击性强。</div>
+        </div>
+        <div class="entity">
+            <div class="entity-title">实体 33 - 皮肤窃取者</div>
+            <div class="entity-desc">会伪装成受害者，极具欺骗性和威胁性。</div>
+        </div>
+        <!-- 可继续添加更多怪物 -->
+    </div>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!-- 后室主题网站首页 -->
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后室 Backrooms</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #181818 url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: #f5f5f5;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .navbar {
+            width: 100%;
+            background: rgba(24,24,24,0.95);
+            padding: 12px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            text-align: center;
+            z-index: 100;
+        }
+        .navbar a {
+            color: #ffd700;
+            text-decoration: none;
+            margin: 0 18px;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+        .navbar a:hover {
+            color: #fffbe0;
+        }
+        .container {
+            background: rgba(24,24,24,0.85);
+            padding: 40px 32px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.7);
+            text-align: center;
+            max-width: 400px;
+            margin-top: 80px;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 16px;
+            letter-spacing: 2px;
+        }
+        p {
+            font-size: 1.1em;
+            margin-bottom: 32px;
+        }
+        button {
+            background: #ffd700;
+            color: #181818;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #ffec80;
+        }
+        .message {
+            margin-top: 24px;
+            color: #ffd700;
+            font-size: 1.2em;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="index.html">首页</a>
+        <a href="levels.html">关卡介绍</a>
+        <a href="entities.html">怪物百科</a>
+        <a href="survival.html">生存指南</a>
+        <a href="contact.html">留言</a>
+    </div>
+    <div class="container">
+        <h1>后室 Backrooms</h1>
+        <p>如果你不小心从现实中脱离，进入了无尽的后室空间，
+        你将面对无数的房间、潮湿的地毯、单调的荧光灯和未知的恐惧。
+        你准备好了吗？</p>
+        <button onclick="enterBackrooms()">进入后室</button>
+        <div class="message" id="msg"></div>
+    </div>
+    <footer style="margin-top:40px;color:#ffd700;text-align:center;opacity:0.7;">
+        &copy; 2025 后室主题网站 | 灵感源自Backrooms传说
+    </footer>
+    <script>
+        const tips = [
+            '你听到远处传来嗡嗡声，却看不到灯光的尽头。',
+            '地毯越来越湿，你的鞋子开始发出奇怪的声音。',
+            '有东西在黑暗中注视着你，但你无法看清它的形状。',
+            '荧光灯突然闪烁，你的心跳也随之加快。',
+            '你发现了一扇门，但门后依然是无尽的房间。',
+            '墙上的裂缝似乎在慢慢扩大。',
+            '你感觉到身后有脚步声，却无人回应你的呼喊。',
+            '空气中弥漫着一股奇怪的霉味。',
+            '你在墙角发现了一张泛黄的纸条，上面写着“不要相信你的眼睛”。',
+            '你已进入后室，祝你好运……'
+        ];
+        function enterBackrooms() {
+            const msg = document.getElementById('msg');
+            msg.style.display = 'block';
+            msg.textContent = tips[Math.floor(Math.random() * tips.length)];
+        }
+    </script>
+</body>
+</html>
