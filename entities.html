@@ -80,7 +80,15 @@
         &copy; 2025 后室主题网站 | 灵感源自Backrooms传说
     </footer>
     <script>
+        function checkServer() {
+            if (location.protocol === 'file:') {
+                document.getElementById('container').innerHTML = '<h1>怪物百科</h1><div style="color:#ffd700;">检测到您直接用文件方式打开网页。请使用本地服务器（如 VS Code Live Server、Python SimpleHTTPServer）访问本网站，否则内容无法正常加载。</div>';
+                return false;
+            }
+            return true;
+        }
         async function loadEntitiesContent() {
+            if (!checkServer()) return;
             try {
                 const res = await fetch('content/entities.txt');
                 const text = await res.text();
