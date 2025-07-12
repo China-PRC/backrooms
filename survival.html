@@ -73,21 +73,52 @@
         <a href="survival.html">生存指南</a>
         <a href="contact.html">留言</a>
     </div>
-    <div class="container">
-        <h1>生存指南</h1>
-        <div class="guide">
-            <div class="guide-title">保持冷静</div>
-            <div class="guide-desc">遇到危险时，保持冷静，寻找安全区域。</div>
-        </div>
-        <div class="guide">
-            <div class="guide-title">收集物资</div>
-            <div class="guide-desc">水和食物极为重要，尽量收集并合理分配。</div>
-        </div>
-        <div class="guide">
-            <div class="guide-title">避开怪物</div>
-            <div class="guide-desc">尽量避免与怪物正面接触，保持警觉。</div>
-        </div>
-        <!-- 可继续添加更多生存建议 -->
+    <div class="container" id="container">
+        <!-- 内容将由JS自动填充 -->
     </div>
+    <footer style="margin-top:40px;color:#ffd700;text-align:center;opacity:0.7;">
+        &copy; 2025 后室主题网站 | 灵感源自Backrooms传说
+    </footer>
+    <script>
+        async function loadSurvivalContent() {
+            try {
+                const res = await fetch('content/survival.txt');
+                const text = await res.text();
+                const container = document.getElementById('container');
+                // 解析内容
+                const lines = text.split('\n').filter(l => l.trim());
+                let html = '<h1>生存指南</h1>';
+                for (const line of lines) {
+                    if (line.includes('：')) {
+                        const [title, desc] = line.split('：');
+                        html += `<div class='guide'><div class='guide-title'>${title}</div><div class='guide-desc'>${desc}</div></div>`;
+                    }
+                }
+                html += `<button onclick='showRandomTip()' style='margin-top:24px;'>随机生存建议</button><div class='guide' id='randomTip' style='display:none;'></div>`;
+                container.innerHTML = html;
+            } catch (e) {
+                document.getElementById('container').innerHTML = '<h1>生存指南</h1><div style="color:#ffd700;">内容加载失败，请确保通过本地服务器访问。</div>';
+            }
+        }
+        const tips = [
+            '保持冷静，理智分析每一步。',
+            '收集水和食物，优先保证生存。',
+            '避开怪物，保持警觉。',
+            '标记路径，防止迷失。',
+            '保持体力，合理休息。',
+            '不要轻易相信陌生人或异常现象。',
+            '遇到危险时，寻找安全区域。',
+            '利用环境中的物品自救。',
+            '保持通讯工具电量充足。',
+            '遇到分岔路，优先选择有光亮的方向。'
+        ];
+        function showRandomTip() {
+            const tip = tips[Math.floor(Math.random() * tips.length)];
+            const tipDiv = document.getElementById('randomTip');
+            tipDiv.style.display = 'block';
+            tipDiv.innerHTML = `<div class='guide-title'>生存建议</div><div class='guide-desc'>${tip}</div>`;
+        }
+        window.onload = loadSurvivalContent;
+    </script>
 </body>
 </html>

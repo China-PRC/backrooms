@@ -87,35 +87,38 @@
         <a href="survival.html">生存指南</a>
         <a href="contact.html">留言</a>
     </div>
-    <div class="container">
-        <h1>后室 Backrooms</h1>
-        <p>如果你不小心从现实中脱离，进入了无尽的后室空间，
-        你将面对无数的房间、潮湿的地毯、单调的荧光灯和未知的恐惧。
-        你准备好了吗？</p>
-        <button onclick="enterBackrooms()">进入后室</button>
-        <div class="message" id="msg"></div>
+    <div class="container" id="container">
+        <!-- 内容将由JS自动填充 -->
     </div>
     <footer style="margin-top:40px;color:#ffd700;text-align:center;opacity:0.7;">
         &copy; 2025 后室主题网站 | 灵感源自Backrooms传说
     </footer>
     <script>
-        const tips = [
-            '你听到远处传来嗡嗡声，却看不到灯光的尽头。',
-            '地毯越来越湿，你的鞋子开始发出奇怪的声音。',
-            '有东西在黑暗中注视着你，但你无法看清它的形状。',
-            '荧光灯突然闪烁，你的心跳也随之加快。',
-            '你发现了一扇门，但门后依然是无尽的房间。',
-            '墙上的裂缝似乎在慢慢扩大。',
-            '你感觉到身后有脚步声，却无人回应你的呼喊。',
-            '空气中弥漫着一股奇怪的霉味。',
-            '你在墙角发现了一张泛黄的纸条，上面写着“不要相信你的眼睛”。',
-            '你已进入后室，祝你好运……'
-        ];
-        function enterBackrooms() {
+        async function loadHomeContent() {
+            try {
+                const res = await fetch('content/home.txt');
+                const text = await res.text();
+                const container = document.getElementById('container');
+                // 解析首页内容
+                const [intro, tipsBlock, copyrightBlock] = text.split(/\n\n+/);
+                let html = '<h1>后室 Backrooms</h1>';
+                html += `<p>${intro.replace(/\n/g,'<br>')}</p>`;
+                html += `<button onclick='showRandomTip()'>进入后室</button>`;
+                html += `<div class='message' id='msg'></div>`;
+                container.innerHTML = html;
+                // 解析提示
+                window.homeTips = tipsBlock.split('\n').filter(l => l && !l.includes('后室主题网站首页内容：') && !l.includes('后室提示：'));
+            } catch (e) {
+                document.getElementById('container').innerHTML = '<h1>后室 Backrooms</h1><div style="color:#ffd700;">内容加载失败，请确保通过本地服务器访问。</div>';
+            }
+        }
+        function showRandomTip() {
+            const tips = window.homeTips || ['你已进入后室，祝你好运……'];
             const msg = document.getElementById('msg');
             msg.style.display = 'block';
             msg.textContent = tips[Math.floor(Math.random() * tips.length)];
         }
+        window.onload = loadHomeContent;
     </script>
 </body>
 </html>

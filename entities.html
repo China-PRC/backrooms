@@ -73,21 +73,33 @@
         <a href="survival.html">生存指南</a>
         <a href="contact.html">留言</a>
     </div>
-    <div class="container">
-        <h1>怪物百科</h1>
-        <div class="entity">
-            <div class="entity-title">实体 3 - 笑面人</div>
-            <div class="entity-desc">外表为人类，脸上始终带着诡异的微笑，极具危险性。</div>
-        </div>
-        <div class="entity">
-            <div class="entity-title">实体 10 - 漏水者</div>
-            <div class="entity-desc">常见于潮湿区域，行动迅速，攻击性强。</div>
-        </div>
-        <div class="entity">
-            <div class="entity-title">实体 33 - 皮肤窃取者</div>
-            <div class="entity-desc">会伪装成受害者，极具欺骗性和威胁性。</div>
-        </div>
-        <!-- 可继续添加更多怪物 -->
+    <div class="container" id="container">
+        <!-- 内容将由JS自动填充 -->
     </div>
+    <footer style="margin-top:40px;color:#ffd700;text-align:center;opacity:0.7;">
+        &copy; 2025 后室主题网站 | 灵感源自Backrooms传说
+    </footer>
+    <script>
+        async function loadEntitiesContent() {
+            try {
+                const res = await fetch('content/entities.txt');
+                const text = await res.text();
+                const container = document.getElementById('container');
+                // 解析怪物内容
+                const lines = text.split('\n').filter(l => l.trim());
+                let html = '<h1>怪物百科</h1>';
+                for (const line of lines) {
+                    if (line.includes('：')) {
+                        const [title, desc] = line.split('：');
+                        html += `<div class='entity'><div class='entity-title'>${title}</div><div class='entity-desc'>${desc}</div></div>`;
+                    }
+                }
+                container.innerHTML = html;
+            } catch (e) {
+                document.getElementById('container').innerHTML = '<h1>怪物百科</h1><div style="color:#ffd700;">内容加载失败，请确保通过本地服务器访问。</div>';
+            }
+        }
+        window.onload = loadEntitiesContent;
+    </script>
 </body>
 </html>
