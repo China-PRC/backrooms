@@ -103,7 +103,15 @@
             const container = document.getElementById('container');
             let html = '<h1>后室 Backrooms</h1>';
             html += `<p>如果你不小心从现实中脱离，进入了无尽的后室空间，<br>你将面对无数的房间、潮湿的地毯、单调的荧光灯和未知的恐惧。<br>你准备好了吗？</p>`;
-            html += `<button onclick='showRandomTip()'>进入后室</button>`;
+            html += `<div id='tipsArea' style='background:rgba(24,24,24,0.7);padding:16px 12px;border-radius:10px;margin-bottom:18px;color:#ffd700;font-size:1em;'>
+                <b>后室世界小贴士：</b><br>
+                1. 保持冷静，理智分析每一步。<br>
+                2. 收集水和食物，优先保证生存。<br>
+                3. 标记路径，防止迷失。<br>
+                4. 不要轻易相信陌生人或异常现象。<br>
+                5. 遇到危险时，寻找安全区域。
+            </div>`;
+            html += `<button id='enterBtn' onclick='showRandomTip()'>进入后室</button>`;
             html += `<div class='message' id='msg'></div>`;
             container.innerHTML = html;
         }
@@ -124,6 +132,8 @@
             const msg = document.getElementById('msg');
             msg.style.display = 'block';
             msg.textContent = tips[Math.floor(Math.random() * tips.length)];
+            const btn = document.getElementById('enterBtn');
+            if (btn) btn.style.display = 'none';
         }
         async function searchLevel() {
             const input = document.getElementById('levelSearch').value.trim().toLowerCase();
@@ -144,7 +154,18 @@
                 document.getElementById('levelResult').innerHTML = '<span style="color:#ffd700;">未找到对应层级文件！</span>';
             }
         }
-        window.onload = showHomeContent;
+        // 支持回车直接搜索
+        window.addEventListener('DOMContentLoaded', () => {
+            showHomeContent();
+            const searchInput = document.getElementById('levelSearch');
+            if (searchInput) {
+                searchInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        searchLevel();
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html>
