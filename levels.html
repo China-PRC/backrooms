@@ -124,14 +124,32 @@
                 const res = await fetch(fileName);
                 if (!res.ok) throw new Error('not found');
                 const text = await res.text();
-                document.getElementById('levelResult').innerHTML = `<pre style='background:rgba(24,24,24,0.7);padding:16px;border-radius:8px;color:#ffd700;'>${text}</pre>`;
+                // 假定txt格式：第一行为主标题（level编号），第二行为副标题（层级名称），第三行起为介绍，图片链接单独一行以 http/https 开头
+                const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+                let mainTitle = lines[0] || '';
+                let subTitle = lines[1] || '';
+                let descArr = [];
+                let imgUrl = '';
+                for (let i = 2; i < lines.length; i++) {
+                    if (/^https?:\/\//.test(lines[i])) {
+                        imgUrl = lines[i];
+                    } else {
+                        descArr.push(lines[i]);
+                    }
+                }
+                let html = `<div class='level-result-main'>${mainTitle}</div>`;
+                if (subTitle) html += `<div class='level-result-sub'>${subTitle}</div>`;
+                if (descArr.length) html += `<div class='level-result-desc'>${descArr.join('<br>')}</div>`;
+                if (imgUrl) html += `<img src='${imgUrl}' class='level-result-img'>`;
+                document.getElementById('levelResult').innerHTML = html;
             } catch {
                 document.getElementById('levelResult').innerHTML = '<span style="color:#ffd700;">未找到对应层级文件！</span>';
             }
         }
         window.addEventListener('DOMContentLoaded', () => {
-            if (document.getElementById('levelSearch')) {
-                document.getElementById('levelSearch').addEventListener('keydown', function(e) {
+            const input = document.getElementById('levelSearch');
+            if (input) {
+                input.addEventListener('keydown', function(e) {
                     if (e.key === 'Enter') {
                         searchLevel();
                     }
