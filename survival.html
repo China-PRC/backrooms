@@ -78,11 +78,7 @@
     <div class="container" id="container">
         <!-- 内容将由JS自动填充 -->
     </div>
-    <div style="margin:32px 0 0 0;text-align:center;">
-        <input type="text" id="levelSearch" placeholder="搜索层级（如 level0 或 level-0）" style="padding:8px 16px;border-radius:8px;border:none;width:220px;">
-        <button onclick="searchLevel()" style="padding:8px 24px;border-radius:8px;background:#ffd700;color:#181818;border:none;cursor:pointer;">搜索</button>
-    </div>
-    <div id="levelResult" style="margin-top:24px;text-align:center;"></div>
+    <!-- 搜索功能已移除，仅在 levels 页面保留 -->
     <footer style="margin-top:40px;color:#ffd700;text-align:center;opacity:0.7;">
         &copy; 2025 RST后室协会    |   Backrooms
     </footer>
@@ -133,33 +129,8 @@
             tipDiv.style.display = 'block';
             tipDiv.innerHTML = `<div class='guide-title'>生存建议</div><div class='guide-desc'>${tip}</div>`;
         }
-        async function searchLevel() {
-            const input = document.getElementById('levelSearch').value.trim().toLowerCase();
-            let fileName = '';
-            if (/^level[- ]?\d+$/.test(input)) {
-                const num = input.match(/\d+/)[0];
-                fileName = `tolevels/level-${num}.txt`;
-            } else {
-                document.getElementById('levelResult').innerHTML = '<span style="color:#ffd700;">请输入正确的层级关键词（如 level0 或 level-0）</span>';
-                return;
-            }
-            try {
-                const res = await fetch(fileName);
-                if (!res.ok) throw new Error('not found');
-                const text = await res.text();
-                document.getElementById('levelResult').innerHTML = `<pre style='background:rgba(24,24,24,0.7);padding:16px;border-radius:8px;color:#ffd700;'>${text}</pre>`;
-            } catch {
-                document.getElementById('levelResult').innerHTML = '<span style="color:#ffd700;">未找到对应层级文件！</span>';
-            }
-        }
         window.addEventListener('DOMContentLoaded', () => {
-            if (document.getElementById('levelSearch')) {
-                document.getElementById('levelSearch').addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter') {
-                        searchLevel();
-                    }
-                });
-            }
+            // ...existing code...
         });
         window.onload = loadSurvivalContent;
     </script>

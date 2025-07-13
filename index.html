@@ -1,4 +1,3 @@
-<!-- 后室主题网站首页 -->
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -87,11 +86,7 @@
     <div class="container" id="container">
         <!-- 内容将由JS自动填充 -->
     </div>
-    <div style="margin:32px 0 0 0;text-align:center;">
-        <input type="text" id="levelSearch" placeholder="搜索levels（如 level0 或 level-0）" style="padding:8px 16px;border-radius:8px;border:none;width:220px;">
-        <button onclick="searchLevel()" style="padding:8px 24px;border-radius:8px;background:#ffd700;color:#181818;border:none;cursor:pointer;">搜索</button>
-    </div>
-    <div id="levelResult" style="margin-top:24px;text-align:center;"></div>
+    <!-- 搜索功能已移除，仅在 levels 页面保留 -->
     <footer style="margin-top:40px;color:#ffd700;text-align:center;opacity:0.7;">
         &copy; 2025 RST后室协会    |   Backrooms
     </footer>
@@ -99,14 +94,19 @@
         function showHomeContent() {
             const container = document.getElementById('container');
             let html = '<h1>后室 Backrooms</h1>';
-            html += `<p>如果你不小心从现实中脱离，进入了无尽的后室空间，<br>你将面对无数的房间、潮湿的地毯、单调的荧光灯和未知的恐惧。<br>你准备好了吗？</p>`;
+            html += `<p>如果你不小心从现实中脱离，进入了后室，<br>你将面对无数的实体、levels、梦核、对于未知生物的恐惧。<br>你还是人类吗？</p>`;
             html += `<div id='tipsArea' style='background:rgba(24,24,24,0.7);padding:16px 12px;border-radius:10px;margin-bottom:18px;color:#ffd700;font-size:1em;'>
-                <b>后室世界小贴士：</b><br>
-                1. 保持冷静，理智分析每一步。<br>
-                2. 收集水和食物，优先保证生存。<br>
-                3. 标记路径，防止迷失。<br>
-                4. 不要轻易相信陌生人或异常现象。<br>
-                5. 遇到危险时，寻找安全区域。
+                <b>后室生存：</b><br>
+                1. 请保持冷静。<br>
+                2. 请收集杏仁水和食物，优先保证生存。<br>
+                3. 请标记路径，防止迷失。<br>
+                4. 请不要轻易相信陌生人或异常现象。<br>
+                5. 遇到危险时，请寻找安全区域。
+                6. 如果你听到嗡嗡声，请尽量远离声音源。<br>
+                7. 如果你看到荧光灯闪烁，请保持警惕。<br>
+                8. 如果你发现墙壁有裂缝，请不要靠近。<br>
+                9. 如果你在level中发现异常现象，请立即记录并报告。<br>
+                10. 如果你遇到我们的救援人员，你可以相信它们；但永远不要相信窃皮者。<br>
             </div>`;
             html += `<button id='enterBtn' onclick='showRandomTip()'>进入后室</button>`;
             html += `<div class='message' id='msg'></div>`;
@@ -132,36 +132,8 @@
             const btn = document.getElementById('enterBtn');
             if (btn) btn.style.display = 'none';
         }
-        async function searchLevel() {
-            const input = document.getElementById('levelSearch').value.trim().toLowerCase();
-            let fileName = '';
-            if (/^level[- ]?\d+$/.test(input)) {
-                const num = input.match(/\d+/)[0];
-                fileName = `tolevels/level-${num}.txt`;
-            } else {
-                document.getElementById('levelResult').innerHTML = '<span style="color:#ffd700;">请输入正确的层级关键词（如 level0 或 level-0）</span>';
-                return;
-            }
-            try {
-                const res = await fetch(fileName);
-                if (!res.ok) throw new Error('not found');
-                const text = await res.text();
-                document.getElementById('levelResult').innerHTML = `<pre style='background:rgba(24,24,24,0.7);padding:16px;border-radius:8px;color:#ffd700;'>${text}</pre>`;
-            } catch {
-                document.getElementById('levelResult').innerHTML = '<span style="color:#ffd700;">未找到对应层级文件！</span>';
-            }
-        }
-        // 支持回车直接搜索
         window.addEventListener('DOMContentLoaded', () => {
             showHomeContent();
-            const searchInput = document.getElementById('levelSearch');
-            if (searchInput) {
-                searchInput.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter') {
-                        searchLevel();
-                    }
-                });
-            }
         });
     </script>
 </body>

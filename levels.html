@@ -74,46 +74,17 @@
         <a href="survival.html">生存</a>
         <a href="contact.html">通信日志</a>
     </div>
-    <!-- 小贴士区域已删除 -->
-    <div class="container" id="container">
-        <!-- 内容将由JS自动填充 -->
+    <!-- 搜索栏置顶放大 -->
+    <div style="margin:100px auto 0 auto;max-width:600px;text-align:center;">
+        <input type="text" id="levelSearch" placeholder="搜索层级（如 level0 或 level-0）" style="padding:18px 32px;font-size:1.3em;border-radius:16px;border:none;width:340px;box-shadow:0 4px 16px rgba(0,0,0,0.2);">
+        <button onclick="searchLevel()" style="padding:18px 40px;font-size:1.2em;border-radius:16px;background:#ffd700;color:#181818;border:none;cursor:pointer;margin-left:16px;box-shadow:0 4px 16px rgba(0,0,0,0.15);">搜索</button>
     </div>
-    <div style="margin:32px 0 0 0;text-align:center;">
-        <input type="text" id="levelSearch" placeholder="搜索层级（如 level0 或 level-0）" style="padding:8px 16px;border-radius:8px;border:none;width:220px;">
-        <button onclick="searchLevel()" style="padding:8px 24px;border-radius:8px;background:#ffd700;color:#181818;border:none;cursor:pointer;">搜索</button>
-    </div>
-    <div id="levelResult" style="margin-top:24px;text-align:center;"></div>
+    <div id="levelResult" style="margin:48px auto 0 auto;max-width:600px;text-align:left;"></div>
     <footer style="margin-top:40px;color:#ffd700;text-align:center;opacity:0.7;">
         &copy; 2025 RST后室协会    |   Backrooms
     </footer>
     <script>
-        function checkServer() {
-            if (location.protocol === 'file:') {
-                document.getElementById('container').innerHTML = '<h1>关卡介绍</h1><div style="color:#ffd700;">检测到您直接用文件方式打开网页。请使用本地服务器（如 VS Code Live Server、Python SimpleHTTPServer）访问本网站，否则内容无法正常加载。</div>';
-                return false;
-            }
-            return true;
-        }
-        async function loadLevelsContent() {
-            if (!checkServer()) return;
-            try {
-                const res = await fetch('content/levels.txt');
-                const text = await res.text();
-                const container = document.getElementById('container');
-                // 解析关卡内容
-                const lines = text.split('\n').filter(l => l.trim());
-                let html = '<h1>关卡介绍</h1>';
-                for (const line of lines) {
-                    if (line.includes('：')) {
-                        const [title, desc] = line.split('：');
-                        html += `<div class='level'><div class='level-title'>${title}</div><div class='level-desc'>${desc}</div></div>`;
-                    }
-                }
-                container.innerHTML = html;
-            } catch (e) {
-                document.getElementById('container').innerHTML = '<h1>层级介绍</h1><div style="color:#ffd700;">内容加载失败，请确保通过本地服务器访问。</div>';
-            }
-        }
+        // 移除层级介绍相关JS
         async function searchLevel() {
             const input = document.getElementById('levelSearch').value.trim().toLowerCase();
             let fileName = '';
@@ -142,7 +113,7 @@
                 });
             }
         });
-        window.onload = loadLevelsContent;
+        // 不再自动加载层级介绍
     </script>
 </body>
 </html>
