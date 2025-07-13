@@ -64,6 +64,24 @@
             font-size: 1em;
             color: #f5f5f5;
         }
+        .entity-card {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            width: 180px;
+            text-align: center;
+        }
+        .entity-card:hover {
+            transform: scale(1.05);
+        }
+        .entity-card-title {
+            font-size: 1.2em;
+            color: #ffd700;
+            margin: 0;
+        }
     </style>
 </head>
 <body>
@@ -74,9 +92,37 @@
         <a href="survival.html">生存</a>
         <a href="contact.html">通信日志</a>
     </div>
-    <!-- 小贴士区域已删除 -->
-    <div class="container" id="container">
-        <!-- 内容将由JS自动填充 -->
+    <div class="container" style="display:flex;flex-wrap:wrap;justify-content:center;gap:32px;min-height:400px;align-items:flex-start;">
+        <button class="entity-card" onclick="location.href='entities-unknown.html'">
+            <div class="entity-card-title">安全性未知</div>
+        </button>
+        <button class="entity-card" onclick="location.href='entities-abnormal.html'">
+            <div class="entity-card-title">异常实体</div>
+        </button>
+        <button class="entity-card" onclick="location.href='entities-verydanger.html'">
+            <div class="entity-card-title">非常不安全</div>
+        </button>
+        <button class="entity-card" onclick="location.href='entities-danger.html'">
+            <div class="entity-card-title">不安全</div>
+        </button>
+        <button class="entity-card" onclick="location.href='entities-safe.html'">
+            <div class="entity-card-title">安全</div>
+        </button>
+        <button class="entity-card" onclick="location.href='entities-pollute.html'">
+            <div class="entity-card-title">污染实体</div>
+        </button>
+        <button class="entity-card" onclick="location.href='entities-dead.html'">
+            <div class="entity-card-title">死亡实体</div>
+        </button>
+        <button class="entity-card" onclick="location.href='entities-fake.html'">
+            <div class="entity-card-title">伪装实体</div>
+        </button>
+        <button class="entity-card" onclick="location.href='entities-giant.html'">
+            <div class="entity-card-title">巨型实体</div>
+        </button>
+        <button class="entity-card" onclick="location.href='entities-mental.html'">
+            <div class="entity-card-title">精神实体</div>
+        </button>
     </div>
     <!-- 搜索功能已移除，仅在 levels 页面保留 -->
     <footer style="margin-top:40px;color:#ffd700;text-align:center;opacity:0.7;">

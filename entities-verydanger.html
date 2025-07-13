@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>非常不安全实体清单 - RST协会 Backrooms</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <style>
+        body { background: #181818; color: #ffd700; font-family: 'Segoe UI', 'Arial', sans-serif; }
+        .container { max-width:600px; margin:80px auto 0 auto; background:rgba(24,24,24,0.85); border-radius:16px; padding:40px 32px; }
+        h1 { font-size:2em; text-align:center; margin-bottom:32px; }
+        ul { font-size:1.2em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>非常不安全实体清单</h1>
+        <ul id="entityList"></ul>
+    </div>
+    <script>
+    async function loadEntityList() {
+        try {
+            const res = await fetch('content/entities-verydanger.txt');
+            const text = await res.text();
+            const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+            document.getElementById('entityList').innerHTML = lines.map(name => `<li>${name}</li>`).join('');
+        } catch {
+            document.getElementById('entityList').innerHTML = '<li style="color:#ffd700;">清单加载失败</li>';
+        }
+    }
+    window.onload = loadEntityList;
+    </script>
+</body>
+</html>
