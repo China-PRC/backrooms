@@ -113,9 +113,24 @@
     <script>
         // 新版层级搜索：从 leveler.txt 按行读取，每行用 | 分隔内容
         async function searchLevel() {
-            const input = document.getElementById('levelSearch').value.trim().toLowerCase();
+            const inputRaw = document.getElementById('levelSearch').value.trim();
+            const input = inputRaw.toLowerCase();
             let idx = -1;
-            if (/^level[- ]?\d+$/.test(input)) {
+            let isML = false;
+            let fileName = 'tolevels/leveler.txt';
+            // 检查是否为ML层级
+            if (/ml/.test(input)) {
+                isML = true;
+                fileName = 'tolevels/levelml.txt';
+                // 支持 level ML-55 或 level ML55
+                const match = inputRaw.match(/level\s*ml[- ]?(\d+)/i);
+                if (match) {
+                    idx = parseInt(match[1], 10);
+                } else {
+                    document.getElementById('levelResult').innerHTML = '<span style="color:#ffd700;">请输入正确的ML层级关键词（如 level ML55 或 level ML-55）</span>';
+                    return;
+                }
+            } else if (/^level[- ]?\d+$/.test(input)) {
                 const num = parseInt(input.match(/\d+/)[0], 10);
                 idx = num;
             } else {
@@ -123,7 +138,7 @@
                 return;
             }
             try {
-                const res = await fetch('tolevels/leveler.txt');
+                const res = await fetch(fileName);
                 if (!res.ok) throw new Error('not found');
                 const text = await res.text();
                 const lines = text.split('\n').map(l => l.trim()).filter(l => l);
