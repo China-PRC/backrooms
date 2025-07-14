@@ -160,30 +160,7 @@
             }
             return true;
         }
-        async function loadEntitiesContent() {
-            if (!checkServer()) return;
-            try {
-                const res = await fetch('content/entities.txt');
-                const text = await res.text();
-                const container = document.getElementById('container');
-                // 解析怪物内容
-                const lines = text.split('\n').filter(l => l.trim());
-                let html = '<h1>怪物百科</h1>';
-                for (const line of lines) {
-                    if (line.includes('：')) {
-                        const [title, desc] = line.split('：');
-                        html += `<div class='entity'><div class='entity-title'>${title}</div><div class='entity-desc'>${desc}</div></div>`;
-                    }
-                }
-                container.innerHTML = html;
-            } catch (e) {
-                document.getElementById('container').innerHTML = '<h1>怪物百科</h1><div style="color:#ffd700;">内容加载失败，请确保通过本地服务器访问。</div>';
-            }
-        }
-        window.addEventListener('DOMContentLoaded', () => {
-            // ...existing code...
-        });
-        window.onload = loadEntitiesContent;
+        // 已移除动态加载怪物百科内容
     </script>
 </body>
 </html>
