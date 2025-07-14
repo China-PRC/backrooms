@@ -19,22 +19,57 @@
         .navbar {
             width: 100%;
             background: rgba(24,24,24,0.95);
-            padding: 12px 0;
+            padding: 0;
             position: fixed;
             top: 0;
             left: 0;
             text-align: center;
             z-index: 100;
+            display: flex;
+            justify-content: center;
         }
-        .navbar a {
+        .nav-group {
+            position: relative;
+            display: inline-block;
+            margin: 0 18px;
+        }
+        .nav-group > .nav-title {
             color: #ffd700;
             text-decoration: none;
-            margin: 0 18px;
             font-size: 1.1em;
             font-weight: bold;
+            padding: 12px 24px;
+            cursor: pointer;
             transition: color 0.2s;
+            display: block;
         }
-        .navbar a:hover {
+        .nav-group > .nav-title:hover {
+            color: #fffbe0;
+        }
+        .nav-dropdown {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 100%;
+            background: rgba(24,24,24,0.98);
+            min-width: 160px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+            border-radius: 0 0 12px 12px;
+            text-align: left;
+        }
+        .nav-group:hover .nav-dropdown {
+            display: block;
+        }
+        .nav-dropdown a {
+            color: #ffd700;
+            text-decoration: none;
+            display: block;
+            padding: 12px 24px;
+            font-size: 1em;
+            transition: background 0.2s, color 0.2s;
+        }
+        .nav-dropdown a:hover {
+            background: #222;
             color: #fffbe0;
         }
         .container {
@@ -84,11 +119,29 @@
 </head>
 <body>
     <div class="navbar">
-        <a href="index.html">首页</a>
-        <a href="levels.html">levels</a>
-        <a href="entities.html">实体档案</a>
-        <a href="survival.html">生存</a>
-        <a href="contact.html">通信日志</a>
+        <div class="nav-group">
+            <a class="nav-title" href="index.html">RST复室</a>
+            <!-- 首页只有一个链接，无下拉 -->
+        </div>
+        <div class="nav-group">
+            <span class="nav-title">档案</span>
+            <div class="nav-dropdown">
+                <a href="levels.html">levels</a>
+                <a href="entities.html">实体档案</a>
+            </div>
+        </div>
+        <div class="nav-group">
+            <span class="nav-title">社区</span>
+            <div class="nav-dropdown">
+                <a href="contact.html">通信日志</a>
+            </div>
+        </div>
+        <div class="nav-group">
+            <span class="nav-title">生存</span>
+            <div class="nav-dropdown">
+                <a href="survival.html">生存</a>
+            </div>
+        </div>
     </div>
     <!-- 小贴士区域已删除 -->
     <div class="container" id="container">
