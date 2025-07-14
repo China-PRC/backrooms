@@ -27,19 +27,28 @@
             text-align: center;
         }
         .entity-columns {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            justify-items: center;
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
+            gap: 10px;
             max-width: 400px;
             margin: 0 auto;
         }
+        .entity-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+        }
+        .entity-row.center {
+            justify-content: center;
+        }
         /* 响应式优化：小屏幕自动换行 */
         @media (max-width: 800px) {
-            .entity-columns {
-                grid-template-columns: 1fr;
+            .entity-row {
+                flex-direction: column;
+                align-items: center;
                 gap: 10px;
             }
         }
@@ -97,16 +106,22 @@
         </div>
     </div>
         <div class="entity-columns">
-            <button onclick="location.href='entities-unknown.html'">安全性未知</button>
-            <button onclick="location.href='entities-abnormal.html'">异常实体</button>
-            <button onclick="location.href='entities-verydanger.html'">非常不安全</button>
-            <button onclick="location.href='entities-danger.html'">不安全</button>
-            <button onclick="location.href='entities-safe.html'">安全</button>
-            <button onclick="location.href='entities-pollute.html'">污染实体</button>
-            <button onclick="location.href='entities-dead.html'">死亡实体</button>
-            <button onclick="location.href='entities-fake.html'">伪装实体</button>
-            <button onclick="location.href='entities-giant.html'">巨型实体</button>
-            <button onclick="location.href='entities-mental.html'">精神实体</button>
+            <div class="entity-row">
+                <button onclick="location.href='entities-unknown.html'">安全性未知</button>
+                <button onclick="location.href='entities-abnormal.html'">异常实体</button>
+                <button onclick="location.href='entities-verydanger.html'">非常不安全</button>
+                <button onclick="location.href='entities-danger.html'">不安全</button>
+            </div>
+            <div class="entity-row center">
+                <button onclick="location.href='entities-safe.html'">安全</button>
+                <button onclick="location.href='entities-pollute.html'">污染实体</button>
+            </div>
+            <div class="entity-row">
+                <button onclick="location.href='entities-dead.html'">死亡实体</button>
+                <button onclick="location.href='entities-fake.html'">伪装实体</button>
+                <button onclick="location.href='entities-giant.html'">巨型实体</button>
+                <button onclick="location.href='entities-mental.html'">精神实体</button>
+            </div>
         </div>
     </div>
     <!-- 搜索功能已移除，仅在 levels 页面保留 -->
