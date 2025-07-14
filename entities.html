@@ -19,11 +19,14 @@
         }
         .container {
             background: rgba(24,24,24,0.85);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 85vh;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             text-align: center;
+            width: 100vw;
+            min-height: unset;
+            display: block;
         }
         .entity-columns {
             display: flex;
