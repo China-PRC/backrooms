@@ -18,7 +18,9 @@
         }
         .navbar {
             width: 100%;
-            background: rgba(24,24,24,0.95);
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             padding: 0;
             position: fixed;
             top: 0;
@@ -30,6 +32,7 @@
             justify-content: center;
             align-items: center;
             gap: 32px;
+            border-bottom: 1px solid rgba(255,215,0,0.1);
         }
         .nav-group {
             position: relative;
@@ -56,8 +59,11 @@
             position: absolute;
             left: 50%;
             top: 100%;
-            background: rgba(24,24,24,0.98);
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             min-width: 160px;
+            border: 1px solid rgba(255,215,0,0.1);
             box-shadow: 0 4px 16px rgba(0,0,0,0.4);
             border-radius: 0 0 12px 12px;
             text-align: left;
@@ -173,10 +179,19 @@
                 border-radius:16px;
                 border:2px solid rgba(255,215,0,0.2);
                 width:400px;
-                background:rgba(24,24,24,0.95);
+                background:rgba(255,255,255,0.1);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
                 color:#f5f5f5;
-                box-shadow:0 4px 16px rgba(0,0,0,0.3);
+                box-shadow:0 4px 16px rgba(0,0,0,0.15);
                 transition:all 0.3s ease;">
+        <style>
+            #levelSearch:hover, #levelSearch:focus {
+                background: rgba(255,255,255,0.15);
+                border-color: rgba(255,215,0,0.4);
+                outline: none;
+            }
+        </style>
         <button onclick="searchLevel()" 
             style="padding:18px 40px;
                 font-size:1.2em;
