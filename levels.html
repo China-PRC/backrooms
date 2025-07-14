@@ -6,81 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>levels - RST协会|复室 Backrooms</title>
     <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="styles/common.css">
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #181818 url('bj.jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: #f5f5f5;
-            font-family: 'Segoe UI', 'Arial', sans-serif;
-            min-height: 100vh;
-        }
-        .navbar {
-            width: 100%;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 0;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 100;
-            height: 56px;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            gap: 32px;
-            border-bottom: 1px solid rgba(255,215,0,0.1);
-        }
-        .nav-group {
-            position: relative;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-        }
-        .nav-title {
-            color: #ffd700;
-            text-decoration: none;
-            font-size: 1.1em;
-            font-weight: bold;
-            padding: 12px 24px;
-            cursor: pointer;
-            transition: color 0.2s;
-            display: block;
-            background: none;
-            border: none;
-        }
-        .nav-title:hover {
-            color: #fffbe0;
-        }
-        .nav-dropdown {
-            position: absolute;
-            left: 50%;
-            top: 100%;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            min-width: 160px;
-            border: 1px solid rgba(255,215,0,0.1);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-            border-radius: 0 0 12px 12px;
-            text-align: left;
-            opacity: 0;
-            pointer-events: none;
-            transform: translate(-50%, -10px);
-            transition: opacity 0.3s cubic-bezier(.4,0,.2,1), transform 0.3s cubic-bezier(.4,0,.2,1);
-        }
-        .nav-group:hover .nav-dropdown,
-        .nav-group:focus-within .nav-dropdown {
-            opacity: 1;
-            transform: translate(-50%, 0);
-            pointer-events: auto;
-            color: #fffbe0;
-            margin-bottom: 22px;
-            font-weight: 500;
-        }
         .level-result-main {
             font-size: 2em;
             color: #ffd700;
@@ -179,19 +106,10 @@
                 border-radius:16px;
                 border:2px solid rgba(255,215,0,0.2);
                 width:400px;
-                background:rgba(255,255,255,0.1);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
+                background:rgba(24,24,24,0.95);
                 color:#f5f5f5;
-                box-shadow:0 4px 16px rgba(0,0,0,0.15);
+                box-shadow:0 4px 16px rgba(0,0,0,0.3);
                 transition:all 0.3s ease;">
-        <style>
-            #levelSearch:hover, #levelSearch:focus {
-                background: rgba(255,255,255,0.15);
-                border-color: rgba(255,215,0,0.4);
-                outline: none;
-            }
-        </style>
         <button onclick="searchLevel()" 
             style="padding:18px 40px;
                 font-size:1.2em;
