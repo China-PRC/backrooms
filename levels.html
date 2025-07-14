@@ -19,12 +19,16 @@
         .navbar {
             width: 100%;
             background: rgba(24,24,24,0.95);
-            padding: 12px 0;
+            padding: 0;
             position: fixed;
             top: 0;
             left: 0;
             text-align: center;
             z-index: 100;
+            display: flex;
+            justify-content: center;
+            height: 56px;
+            align-items: center;
         }
         .navbar a {
             color: #ffd700;
@@ -34,19 +38,25 @@
             font-weight: bold;
             transition: color 0.2s;
         }
-        .navbar a:hover {
-            color: #fffbe0;
+        .nav-dropdown {
+            position: absolute;
+            left: 0;
+            top: 100%;
+            background: rgba(24,24,24,0.98);
+            min-width: 160px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+            border-radius: 0 0 12px 12px;
+            text-align: left;
+            opacity: 0;
+            transform: translateY(-10px);
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(.4,0,.2,1), transform 0.3s cubic-bezier(.4,0,.2,1);
         }
-        /* 搜索结果美化 */
-        .level-result-main {
-            font-size: 2.8em;
-            color: #ffd700;
-            font-weight: bold;
-            margin-bottom: 12px;
-            letter-spacing: 2px;
-        }
-        .level-result-sub {
-            font-size: 1.8em;
+        .nav-group:hover .nav-dropdown,
+        .nav-group:focus-within .nav-dropdown {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
             color: #fffbe0;
             margin-bottom: 22px;
             font-weight: 500;
@@ -71,7 +81,7 @@
             box-shadow: 0 8px 32px rgba(0,0,0,0.7);
             text-align: left;
             max-width: 600px;
-            margin: 80px auto 0 auto;
+            margin: 96px auto 0 auto;
         }
         h1 {
             font-size: 2.2em;

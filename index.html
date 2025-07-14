@@ -18,23 +18,33 @@
         .navbar {
             width: 100%;
             background: rgba(24,24,24,0.95);
-            padding: 12px 0;
+            padding: 0;
             position: fixed;
             top: 0;
             left: 0;
             text-align: center;
             z-index: 100;
+            height: 56px;
         }
-        .navbar a {
-            color: #ffd700;
-            text-decoration: none;
-            margin: 0 18px;
-            font-size: 1.1em;
-            font-weight: bold;
-            transition: color 0.2s;
+        .nav-dropdown {
+            position: absolute;
+            left: 0;
+            top: 100%;
+            background: rgba(24,24,24,0.98);
+            min-width: 160px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+            border-radius: 0 0 12px 12px;
+            text-align: left;
+            opacity: 0;
+            transform: translateY(-10px);
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(.4,0,.2,1), transform 0.3s cubic-bezier(.4,0,.2,1);
         }
-        .navbar a:hover {
-            color: #fffbe0;
+        .nav-group:hover .nav-dropdown,
+        .nav-group:focus-within .nav-dropdown {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
         }
         .container {
             background: rgba(24,24,24,0.85);
@@ -43,7 +53,7 @@
             box-shadow: 0 8px 32px rgba(0,0,0,0.7);
             text-align: center;
             max-width: 400px;
-            margin: 80px auto 0 auto;
+            margin: 96px auto 0 auto;
         }
         h1 {
             font-size: 2.5em;
