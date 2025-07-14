@@ -23,24 +23,38 @@
             position: fixed;
             top: 0;
             left: 0;
-            text-align: center;
             z-index: 100;
-            display: flex;
-            justify-content: center;
             height: 56px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 32px;
+        }
+        .nav-group {
+            position: relative;
+            display: flex;
+            flex-direction: row;
             align-items: center;
         }
-        .navbar a {
+        .nav-title {
             color: #ffd700;
             text-decoration: none;
-            margin: 0 18px;
             font-size: 1.1em;
             font-weight: bold;
+            padding: 12px 24px;
+            cursor: pointer;
             transition: color 0.2s;
+            display: block;
+            background: none;
+            border: none;
+        }
+        .nav-title:hover {
+            color: #fffbe0;
         }
         .nav-dropdown {
             position: absolute;
-            left: 0;
+            left: 50%;
             top: 100%;
             background: rgba(24,24,24,0.98);
             min-width: 160px;
@@ -48,14 +62,14 @@
             border-radius: 0 0 12px 12px;
             text-align: left;
             opacity: 0;
-            transform: translateY(-10px);
             pointer-events: none;
+            transform: translate(-50%, -10px);
             transition: opacity 0.3s cubic-bezier(.4,0,.2,1), transform 0.3s cubic-bezier(.4,0,.2,1);
         }
         .nav-group:hover .nav-dropdown,
         .nav-group:focus-within .nav-dropdown {
             opacity: 1;
-            transform: translateY(0);
+            transform: translate(-50%, 0);
             pointer-events: auto;
             color: #fffbe0;
             margin-bottom: 22px;
