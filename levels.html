@@ -111,52 +111,63 @@
         &copy; 2025 RST后室协会    |   Backrooms
     </footer>
     <script>
-        // 通用层级搜索，支持任意字符编号
+        // 新版层级搜索：从 leveler.txt 按行读取，每行用 | 分隔内容
         async function searchLevel() {
             const inputRaw = document.getElementById('levelSearch').value.trim();
-            const input = inputRaw.toLowerCase().replace(/\s+/g, '');
-            let fileName = 'tolevels/leveler.txt';
+            const input = inputRaw.toLowerCase();
+            let num = -1;
             let isML = false;
+            let fileName = 'tolevels/leveler.txt';
+            let prefix = '';
+            // 检查是否为ML层级
             if (/ml/.test(input)) {
                 isML = true;
                 fileName = 'tolevels/levelml.txt';
+                // 支持 level ML-11 或 level ML11
+                const match = inputRaw.match(/level\s*ml[- ]?(\d+)/i);
+                if (match) {
+                    num = parseInt(match[1], 10);
+                    prefix = 'ml';
+                } else {
+                    document.getElementById('levelResult').innerHTML = '<span style="color:#ffd700;">请输入正确的ML层级关键词（如 level ML11 或 level ML-11）</span>';
+                    return;
+                }
+            } else if (/^level[- ]?\d+$/.test(input)) {
+                const match = input.match(/level[- ]?(\d+)/);
+                if (match) {
+                    num = parseInt(match[1], 10);
+                }
+            } else {
+                document.getElementById('levelResult').innerHTML = '<span style="color:#ffd700;">请输入正确的层级关键词（如 level0 或 level-0）</span>';
+                return;
             }
             try {
                 const res = await fetch(fileName);
                 if (!res.ok) throw new Error('not found');
                 const text = await res.text();
                 const lines = text.split('\n').map(l => l.trim()).filter(l => l);
-                // 精确匹配（忽略大小写和空格）
+                // 搜索前后5行
                 let found = false;
                 let line = '';
-                for (let i = 0; i < lines.length; i++) {
-                    let firstPart = lines[i].split('|')[0].toLowerCase().replace(/\s+/g, '');
-                    if (firstPart === input) {
+                let startIdx = Math.max(0, num - 2); // 搜索区间中心在num
+                let endIdx = Math.min(lines.length - 1, num + 2);
+                for (let i = startIdx; i <= endIdx; i++) {
+                    // 取每行第一个|前的数字
+                    let firstPart = lines[i].split('|')[0].toLowerCase();
+                    let matchNum = -1;
+                    if (isML) {
+                        // ML层级如 level ML-11
+                        const mlMatch = firstPart.match(/ml[- ]?(\d+)/i);
+                        if (mlMatch) matchNum = parseInt(mlMatch[1], 10);
+                    } else {
+                        // 普通层级如 level-56
+                        const lvlMatch = firstPart.match(/level[- ]?(\d+)/i);
+                        if (lvlMatch) matchNum = parseInt(lvlMatch[1], 10);
+                    }
+                    if (matchNum === num) {
                         line = lines[i];
                         found = true;
                         break;
-                    }
-                }
-                // 若未找到，模糊匹配（前后5行，包含输入内容即可）
-                if (!found) {
-                    let idx = -1;
-                    // 尝试定位输入中的编号部分
-                    let numMatch = input.match(/(ml)?[- ]?([\w.]+)$/i);
-                    if (numMatch) {
-                        let numStr = numMatch[2];
-                        let possibleIdx = -1;
-                        if (!isNaN(Number(numStr))) possibleIdx = Math.round(Number(numStr));
-                        if (possibleIdx >= 0 && possibleIdx < lines.length) idx = possibleIdx;
-                    }
-                    let startIdx = Math.max(0, idx - 2);
-                    let endIdx = Math.min(lines.length - 1, idx + 2);
-                    for (let i = startIdx; i <= endIdx; i++) {
-                        let firstPart = lines[i].split('|')[0].toLowerCase().replace(/\s+/g, '');
-                        if (firstPart.includes(input)) {
-                            line = lines[i];
-                            found = true;
-                            break;
-                        }
                     }
                 }
                 if (!found) {
