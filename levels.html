@@ -75,11 +75,32 @@
             margin-bottom: 22px;
             font-weight: 500;
         }
+        .level-result-main {
+            font-size: 2em;
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 16px;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .level-result-sub {
+            font-size: 1.3em;
+            color: #ffec80;
+            text-align: center;
+            margin-bottom: 24px;
+            font-weight: 500;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
         .level-result-desc {
-            font-size: 1.25em;
+            font-size: 1.1em;
             color: #f5f5f5;
-            margin-bottom: 22px;
-            line-height: 2.1;
+            line-height: 1.8;
+            padding: 24px;
+            background: rgba(24,24,24,0.85);
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,215,0,0.2);
+            margin-top: 16px;
         }
         .level-result-img {
             display: block;
@@ -143,12 +164,34 @@
         </div>
     </div>
     <!-- 搜索栏置顶放大 -->
-    <div style="margin:100px auto 0 auto;max-width:600px;text-align:center;">
-        <input type="text" id="levelSearch" placeholder="搜索层级（如 level0 或 level-0）" style="padding:18px 32px;font-size:1.3em;border-radius:16px;border:none;width:340px;box-shadow:0 4px 16px rgba(0,0,0,0.2);">
-        <button onclick="searchLevel()" style="padding:18px 40px;font-size:1.2em;border-radius:16px;background:#ffd700;color:#181818;border:none;cursor:pointer;margin-left:16px;box-shadow:0 4px 16px rgba(0,0,0,0.15);">搜索</button>
+    <div style="margin:100px auto 0 auto;max-width:800px;text-align:center;padding:0 32px;">
+        <input type="text" 
+            id="levelSearch" 
+            placeholder="搜索层级（如 level0 或 level ML-1）" 
+            style="padding:18px 32px;
+                font-size:1.3em;
+                border-radius:16px;
+                border:2px solid rgba(255,215,0,0.2);
+                width:400px;
+                background:rgba(24,24,24,0.95);
+                color:#f5f5f5;
+                box-shadow:0 4px 16px rgba(0,0,0,0.3);
+                transition:all 0.3s ease;">
+        <button onclick="searchLevel()" 
+            style="padding:18px 40px;
+                font-size:1.2em;
+                border-radius:16px;
+                background:#ffd700;
+                color:#181818;
+                border:none;
+                cursor:pointer;
+                margin-left:16px;
+                box-shadow:0 4px 16px rgba(0,0,0,0.15);
+                transition:all 0.2s ease;
+                font-weight:500;">搜索</button>
     </div>
-    <div id="levelResult" style="margin:48px auto 0 auto;max-width:600px;text-align:left;"></div>
-    <footer style="margin-top:40px;color:#ffd700;text-align:center;opacity:0.7;">
+    <div id="levelResult" style="margin:48px auto 0 auto;max-width:800px;padding:0 32px;"></div>
+    <footer style="margin-top:64px;color:#ffd700;text-align:center;opacity:0.7;">
         &copy; 2025 RST后室协会    |   Backrooms
     </footer>
     <script>
@@ -216,16 +259,36 @@
                     return;
                 }
                 const parts = line.split('|').map(p => p.trim());
-                let html = '';
+                let html = '<div style="animation:fadeIn 0.5s ease-out;">';
                 if (parts.length > 0) html += `<div class='level-result-main'>${parts[0]}</div>`;
                 if (parts.length > 1) html += `<div class='level-result-sub'>${parts[1]}</div>`;
                 if (parts.length > 2) {
                     html += `<div class='level-result-desc'>`;
+                    let infoHtml = '';
                     for (let i = 2; i < parts.length; i++) {
-                        html += `${parts[i]}<br>`;
+                        const text = parts[i];
+                        if (text.includes('难度：') || text.includes('安全性：')) {
+                            infoHtml += `<div style='color:#ffd700;font-weight:500;margin-bottom:12px;'>${text}</div>`;
+                        } else if (text.includes('描述：') || text.includes('特征：')) {
+                            infoHtml += `<div style='color:#ffec80;font-weight:500;margin:16px 0 8px 0;'>${text.split('：')[0]}：</div>`;
+                            infoHtml += `<div style='margin-bottom:16px;'>${text.split('：')[1]}</div>`;
+                        } else {
+                            infoHtml += `<div style='margin-bottom:12px;'>${text}</div>`;
+                        }
                     }
+                    html += infoHtml;
                     html += `</div>`;
                 }
+                html += '</div>';
+                // 添加CSS动画
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes fadeIn {
+                        from { opacity: 0; transform: translateY(10px); }
+                        to { opacity: 1; transform: translateY(0); }
+                    }
+                `;
+                document.head.appendChild(style);
                 document.getElementById('levelResult').innerHTML = html;
             } catch {
                 document.getElementById('levelResult').innerHTML = '<span style="color:#ffd700;">未找到层级数据文件！</span>';
