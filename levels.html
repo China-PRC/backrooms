@@ -115,24 +115,28 @@
         async function searchLevel() {
             const inputRaw = document.getElementById('levelSearch').value.trim();
             const input = inputRaw.toLowerCase();
-            let idx = -1;
+            let num = -1;
             let isML = false;
             let fileName = 'tolevels/leveler.txt';
+            let prefix = '';
             // 检查是否为ML层级
             if (/ml/.test(input)) {
                 isML = true;
                 fileName = 'tolevels/levelml.txt';
-                // 支持 level ML-55 或 level ML55
+                // 支持 level ML-11 或 level ML11
                 const match = inputRaw.match(/level\s*ml[- ]?(\d+)/i);
                 if (match) {
-                    idx = parseInt(match[1], 10);
+                    num = parseInt(match[1], 10);
+                    prefix = 'ml';
                 } else {
-                    document.getElementById('levelResult').innerHTML = '<span style="color:#ffd700;">请输入正确的ML层级关键词（如 level ML55 或 level ML-55）</span>';
+                    document.getElementById('levelResult').innerHTML = '<span style="color:#ffd700;">请输入正确的ML层级关键词（如 level ML11 或 level ML-11）</span>';
                     return;
                 }
             } else if (/^level[- ]?\d+$/.test(input)) {
-                const num = parseInt(input.match(/\d+/)[0], 10);
-                idx = num;
+                const match = input.match(/level[- ]?(\d+)/);
+                if (match) {
+                    num = parseInt(match[1], 10);
+                }
             } else {
                 document.getElementById('levelResult').innerHTML = '<span style="color:#ffd700;">请输入正确的层级关键词（如 level0 或 level-0）</span>';
                 return;
@@ -142,11 +146,34 @@
                 if (!res.ok) throw new Error('not found');
                 const text = await res.text();
                 const lines = text.split('\n').map(l => l.trim()).filter(l => l);
-                if (idx < 0 || idx >= lines.length) {
+                // 搜索前后5行
+                let found = false;
+                let line = '';
+                let startIdx = Math.max(0, num - 2); // 搜索区间中心在num
+                let endIdx = Math.min(lines.length - 1, num + 2);
+                for (let i = startIdx; i <= endIdx; i++) {
+                    // 取每行第一个|前的数字
+                    let firstPart = lines[i].split('|')[0].toLowerCase();
+                    let matchNum = -1;
+                    if (isML) {
+                        // ML层级如 level ML-11
+                        const mlMatch = firstPart.match(/ml[- ]?(\d+)/i);
+                        if (mlMatch) matchNum = parseInt(mlMatch[1], 10);
+                    } else {
+                        // 普通层级如 level-56
+                        const lvlMatch = firstPart.match(/level[- ]?(\d+)/i);
+                        if (lvlMatch) matchNum = parseInt(lvlMatch[1], 10);
+                    }
+                    if (matchNum === num) {
+                        line = lines[i];
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
                     document.getElementById('levelResult').innerHTML = '<span style="color:#ffd700;">未找到对应层级！</span>';
                     return;
                 }
-                const line = lines[idx];
                 const parts = line.split('|').map(p => p.trim());
                 let html = '';
                 if (parts.length > 0) html += `<div class='level-result-main'>${parts[0]}</div>`;
