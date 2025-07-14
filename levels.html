@@ -111,13 +111,12 @@
         &copy; 2025 RST后室协会    |   Backrooms
     </footer>
     <script>
-        // 新版层级搜索：从 leveler.txt 按行读取，每行用 | 分隔内容
+        // 通用层级搜索，支持任意字符编号
         async function searchLevel() {
             const inputRaw = document.getElementById('levelSearch').value.trim();
             const input = inputRaw.toLowerCase().replace(/\s+/g, '');
             let fileName = 'tolevels/leveler.txt';
             let isML = false;
-            // 判断是否ML层级
             if (/ml/.test(input)) {
                 isML = true;
                 fileName = 'tolevels/levelml.txt';
@@ -127,10 +126,9 @@
                 if (!res.ok) throw new Error('not found');
                 const text = await res.text();
                 const lines = text.split('\n').map(l => l.trim()).filter(l => l);
-                // 搜索区间：全文件优先精确匹配，若未找到则前后5行模糊匹配
+                // 精确匹配（忽略大小写和空格）
                 let found = false;
                 let line = '';
-                // 精确匹配（忽略大小写和空格）
                 for (let i = 0; i < lines.length; i++) {
                     let firstPart = lines[i].split('|')[0].toLowerCase().replace(/\s+/g, '');
                     if (firstPart === input) {
@@ -141,12 +139,11 @@
                 }
                 // 若未找到，模糊匹配（前后5行，包含输入内容即可）
                 if (!found) {
-                    // 尝试定位输入中的编号部分
                     let idx = -1;
+                    // 尝试定位输入中的编号部分
                     let numMatch = input.match(/(ml)?[- ]?([\w.]+)$/i);
                     if (numMatch) {
                         let numStr = numMatch[2];
-                        // 取可能的行号
                         let possibleIdx = -1;
                         if (!isNaN(Number(numStr))) possibleIdx = Math.round(Number(numStr));
                         if (possibleIdx >= 0 && possibleIdx < lines.length) idx = possibleIdx;
