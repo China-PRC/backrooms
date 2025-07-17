@@ -2,8 +2,9 @@
 <html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
-    <title>非常不安全实体清单 - RST协会|复室 Backrooms</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="logo.png">
+    <title>论坛 - RST协会|复室 Backrooms</title>
     <link rel="stylesheet" href="styles/navbar.css">
     <style>
         body {
@@ -11,13 +12,38 @@
             padding: 0;
             background: #181818 url('bj.jpg') no-repeat center center fixed;
             background-size: cover;
-            color: #ffd700;
+            color: #f5f5f5;
             font-family: 'Segoe UI', 'Arial', sans-serif;
             min-height: 100vh;
         }
-        .container { max-width:600px; margin:96px auto 0 auto; background:rgba(24,24,24,0.85); border-radius:16px; padding:40px 32px; }
-        h1 { font-size:2em; text-align:center; margin-bottom:32px; }
-        ul { font-size:1.2em; }
+        .container {
+            background: rgba(24,24,24,0.85);
+            border-radius: 24px;
+            max-width: 800px;
+            margin: 120px auto 40px auto;
+            padding: 40px 32px 32px 32px;
+            box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+        }
+        h1 {
+            color: #ffd700;
+            font-size: 2.2em;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        .forum-tip {
+            color: #ffd700;
+            background: rgba(255,215,0,0.08);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+        .forum-placeholder {
+            color: #f5f5f5;
+            opacity: 0.7;
+            text-align: center;
+            font-size: 1.1em;
+        }
     </style>
 </head>
 <body>
@@ -47,22 +73,12 @@
         </div>
     </div>
     <div class="container">
-        <button onclick="window.history.back()" style="margin-bottom:24px;padding:10px 28px;font-size:1.1em;border-radius:10px;background:#ffd700;color:#181818;border:none;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.15);float:right;">返回</button>
-        <h1 style="clear:both;">非常不安全实体清单</h1>
-        <ul id="entityList"></ul>
+        <h1>论坛（建设中）</h1>
+        <div class="forum-tip">欢迎来到RST后室协会论坛！<br>本页面为论坛功能预留，后续将上线发帖、评论等互动功能。</div>
+        <div class="forum-placeholder">敬请期待更多社区交流内容！</div>
     </div>
-    <script>
-    async function loadEntityList() {
-        try {
-            const res = await fetch('content/entities-verydanger.txt');
-            const text = await res.text();
-            const lines = text.split('\n').map(l => l.trim()).filter(l => l);
-            document.getElementById('entityList').innerHTML = lines.map(name => `<li>${name}</li>`).join('');
-        } catch {
-            document.getElementById('entityList').innerHTML = '<li style="color:#ffd700;">清单加载失败</li>';
-        }
-    }
-    window.onload = loadEntityList;
-    </script>
+    <footer style="color:#ffd700;text-align:center;opacity:0.7;">
+        &copy; 2025 RST后室协会    |   Backrooms
+    </footer>
 </body>
 </html>
