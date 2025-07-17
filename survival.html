@@ -1,4 +1,3 @@
-<!-- 后室生存指南页面 -->
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -60,11 +59,11 @@
             </div>
         </div>
     </div>
-    <!-- 小贴士区域已删除 -->
+
     <div class="container" id="container">
-        <!-- 内容将由JS自动填充 -->
+
     </div>
-    <!-- 搜索功能已移除，仅在 levels 页面保留 -->
+
     <footer style="margin-top:40px;color:#ffd700;text-align:center;opacity:0.7;">
         &copy; 2025 RST后室协会    |   Backrooms
     </footer>
@@ -82,7 +81,7 @@
                 const res = await fetch('content/survival.txt');
                 const text = await res.text();
                 const container = document.getElementById('container');
-                // 解析内容
+
                 const lines = text.split('\n').filter(l => l.trim());
                 let html = '<h1>生存指南</h1>';
                 for (const line of lines) {
@@ -116,7 +115,7 @@
             tipDiv.innerHTML = `<div class='guide-title'>生存建议</div><div class='guide-desc'>${tip}</div>`;
         }
         window.addEventListener('DOMContentLoaded', () => {
-            // ...existing code...
+
         });
         window.onload = loadSurvivalContent;
     </script>

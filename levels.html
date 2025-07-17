@@ -1,4 +1,3 @@
-<!-- 后室关卡介绍页面 -->
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -9,7 +8,6 @@
     <link rel="stylesheet" href="styles/navbar.css">
     <link rel="stylesheet" href="styles/common.css">
     <style>
-        /* 仅保留本页面特有样式 */
         body {
             margin: 0;
             padding: 0;
@@ -111,7 +109,7 @@
             </div>
         </div>
     </div>
-    <!-- 搜索栏置顶放大 -->
+
     <div style="margin:100px auto 0 auto;max-width:800px;text-align:center;padding:0 32px;">
         <input type="text" 
             id="levelSearch" 
@@ -143,7 +141,7 @@
         &copy; 2025 RST后室协会    |   Backrooms
     </footer>
     <script>
-        // 新版层级搜索：从 leveler.txt 按行读取，每行用 | 分隔内容
+
         async function searchLevel() {
             const inputRaw = document.getElementById('levelSearch').value.trim();
             const input = inputRaw.toLowerCase();
@@ -151,11 +149,11 @@
             let isML = false;
             let fileName = 'tolevels/leveler.txt';
             let prefix = '';
-            // 检查是否为ML层级
+
             if (/ml/.test(input)) {
                 isML = true;
                 fileName = 'tolevels/levelml.txt';
-                // 支持 level ML-11 或 level ML11
+
                 const match = inputRaw.match(/level\s*ml[- ]?(\d+)/i);
                 if (match) {
                     num = parseInt(match[1], 10);
@@ -178,21 +176,21 @@
                 if (!res.ok) throw new Error('not found');
                 const text = await res.text();
                 const lines = text.split('\n').map(l => l.trim()).filter(l => l);
-                // 搜索前后5行
+
                 let found = false;
                 let line = '';
-                let startIdx = Math.max(0, num - 2); // 搜索区间中心在num
+                let startIdx = Math.max(0, num - 2); 
                 let endIdx = Math.min(lines.length - 1, num + 2);
                 for (let i = startIdx; i <= endIdx; i++) {
-                    // 取每行第一个|前的数字
+
                     let firstPart = lines[i].split('|')[0].toLowerCase();
                     let matchNum = -1;
                     if (isML) {
-                        // ML层级如 level ML-11
+
                         const mlMatch = firstPart.match(/ml[- ]?(\d+)/i);
                         if (mlMatch) matchNum = parseInt(mlMatch[1], 10);
                     } else {
-                        // 普通层级如 level-56
+
                         const lvlMatch = firstPart.match(/level[- ]?(\d+)/i);
                         if (lvlMatch) matchNum = parseInt(lvlMatch[1], 10);
                     }
@@ -228,7 +226,7 @@
                     html += `</div>`;
                 }
                 html += '</div>';
-                // 添加CSS动画
+
                 const style = document.createElement('style');
                 style.textContent = `
                     @keyframes fadeIn {
@@ -252,7 +250,7 @@
                 });
             }
         });
-        // 不再自动加载层级介绍
+
     </script>
 </body>
 </html>
