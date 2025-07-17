@@ -1,4 +1,3 @@
-<!-- 后室怪物百科页面 -->
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -16,6 +15,9 @@
             color: #f5f5f5;
             font-family: 'Segoe UI', 'Arial', sans-serif;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .container {
             background: rgba(24,24,24,0.85);
@@ -25,45 +27,49 @@
             align-items: center;
             min-height: 100vh;
             text-align: center;
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+            box-sizing: border-box;
         }
         .entity-columns {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
-            max-width: 400px;
-            margin: 0 auto;
+            gap: 20px;
+            width: 100%;
+            max-width: 100%;
         }
         .entity-row {
             display: flex;
             flex-direction: row;
             justify-content: center;
-            gap: 12px;
+            gap: 15px;
             width: 100%;
-        }
-        .entity-row.center {
-            justify-content: center;
+            flex-wrap: wrap;
         }
         /* 响应式优化：小屏幕自动换行 */
         @media (max-width: 800px) {
             .entity-row {
-                flex-direction: column;
-                align-items: center;
+                flex-direction: row;
+                justify-content: center;
                 gap: 10px;
             }
         }
-        /* 删除卡片样式，仅保留按钮 */
         button {
             background: transparent;
             color: #ffd700;
             font-size: 1.18em;
             border: 2px solid rgba(255,215,0,0.3);
             border-radius: 12px;
-            padding: 16px;
+            padding: 16px 24px;
             cursor: pointer;
             margin: 8px 0;
             box-shadow: 0 2px 8px rgba(0,0,0,0.12);
             transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+            min-width: 180px;
+            text-align: center;
+            flex: 1 1 auto;
         }
         button:hover {
             background: rgba(255,215,0,0.08);
@@ -76,10 +82,28 @@
                 width: 80vw;
                 max-width: 180px;
                 padding: 14px;
+                font-size: 1.05em;
+            }
+        }
+        @media (max-width: 500px) {
+            button {
+                min-width: 160px;
+                padding: 12px;
+                font-size: 1em;
             }
         }
         footer {
             margin-top: 0 !important;
+            width: 100%;
+            text-align: center;
+            padding: 20px 0;
+        }
+        .page-title {
+            color: #ffd700;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(255,215,0,0.3);
+            width: 100%;
         }
     </style>
 </head>
@@ -108,6 +132,9 @@
             </div>
         </div>
     </div>
+    
+    <div class="container">
+        <h1 class="page-title">后室实体档案</h1>
         <div class="entity-columns">
             <div class="entity-row">
                 <button onclick="location.href='entities-unknown.html'">安全性未知</button>
@@ -115,7 +142,7 @@
                 <button onclick="location.href='entities-verydanger.html'">非常不安全</button>
                 <button onclick="location.href='entities-danger.html'">不安全</button>
             </div>
-            <div class="entity-row center">
+            <div class="entity-row">
                 <button onclick="location.href='entities-safe.html'">安全</button>
                 <button onclick="location.href='entities-pollute.html'">污染实体</button>
             </div>
@@ -127,7 +154,7 @@
             </div>
         </div>
     </div>
-    <!-- 搜索功能已移除，仅在 levels 页面保留 -->
+    
     <footer style="color:#ffd700;text-align:center;opacity:0.7;">
         &copy; 2025 RST后室协会    |   Backrooms
     </footer>
@@ -139,7 +166,6 @@
             }
             return true;
         }
-        // 已移除动态加载怪物百科内容
     </script>
 </body>
 </html>
