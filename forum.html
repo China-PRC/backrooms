@@ -162,13 +162,16 @@
         });
     }
     async function getFileContent(path) {
-        const res = await githubApi(path);
-        if (!res.ok) throw new Error('读取失败');
-        const data = await res.json();
-        return {
-            content: atob(data.content.replace(/\n/g, '')),
-            sha: data.sha
-        };
+    const res = await githubApi(path);
+    if (!res.ok) {
+        console.log('GitHub API error:', res.status, await res.text());
+        throw new Error('读取失败');
+    }
+    const data = await res.json();
+    return {
+        content: atob(data.content.replace(/\n/g, '')),
+        sha: data.sha
+    };
     }
     async function updateFile(path, content, message, sha) {
         return githubApi(path, 'PUT', JSON.stringify({
