@@ -104,24 +104,24 @@
     </div>
     <div class="container" id="forum-app">
         <div id="auth-area">
-            <div id="login-box" class="auth-box">
+            <form id="login-box" class="auth-box" onsubmit="login();return false;">
                 <h2>登录论坛</h2>
-                <input type="text" id="login-id" placeholder="请输入ID" required>
-                <input type="password" id="login-pw" placeholder="密码" required>
-                <button onclick="login()">登录</button>
+                <input type="text" id="login-id" placeholder="请输入ID" required autocomplete="username">
+                <input type="password" id="login-pw" placeholder="密码" required autocomplete="current-password">
+                <button type="submit">登录</button>
                 <div class="auth-tip">没有账号？<span class="auth-link" onclick="showRegister()">注册</span></div>
                 <div id="login-err" class="auth-err"></div>
-            </div>
-            <div id="register-box" class="auth-box" style="display:none;">
+            </form>
+            <form id="register-box" class="auth-box" style="display:none;" onsubmit="register();return false;">
                 <h2>注册新用户</h2>
-                <input type="text" id="reg-username" placeholder="用户名" required>
+                <input type="text" id="reg-username" placeholder="用户名" required autocomplete="username">
                 <input type="text" id="reg-id" placeholder="ID（唯一）" required>
-                <input type="email" id="reg-email" placeholder="邮箱地址" required>
-                <input type="password" id="reg-pw" placeholder="密码" required>
-                <button onclick="register()">注册</button>
+                <input type="email" id="reg-email" placeholder="邮箱地址" required autocomplete="email">
+                <input type="password" id="reg-pw" placeholder="密码" required autocomplete="new-password">
+                <button type="submit">注册</button>
                 <div class="auth-tip">已有账号？<span class="auth-link" onclick="showLogin()">登录</span></div>
                 <div id="reg-err" class="auth-err"></div>
-            </div>
+            </form>
         </div>
         <div id="forum-area" style="display:none;">
             <div class="forum-header">
