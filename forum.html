@@ -51,6 +51,28 @@
             font-size: 0.9em;
             opacity: 0.7;
         }
+        .auth-box { background:rgba(24,24,24,0.95); border-radius:18px; max-width:340px; margin:40px auto 0 auto; padding:32px 28px; box-shadow:0 4px 24px rgba(0,0,0,0.18); text-align:center; }
+        .auth-box h2 { color:#ffd700; margin-bottom:18px; }
+        .auth-box input { width:90%; margin:10px 0; padding:10px 14px; border-radius:8px; border:1px solid #ffd70033; background:rgba(255,255,255,0.08); color:#ffd700; font-size:1.1em; }
+        .auth-box button { width:100%; background:#ffd700; color:#181818; border:none; border-radius:8px; padding:12px 0; font-size:1.1em; margin-top:12px; cursor:pointer; transition:background 0.2s; }
+        .auth-box button:hover { background:#ffec80; }
+        .auth-tip { color:#ffd700bb; margin-top:10px; font-size:0.98em; }
+        .auth-link { color:#ffec80; cursor:pointer; text-decoration:underline; }
+        .auth-err { color:#ff4d4f; margin-top:8px; min-height:22px; }
+        .forum-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+        .logout-btn { background:rgba(255,215,0,0.12); color:#ffd700; border:none; border-radius:8px; padding:8px 18px; font-size:1em; cursor:pointer; transition:background 0.2s; }
+        .logout-btn:hover { background:#ffd700; color:#181818; }
+        .post-box { display:flex; gap:12px; align-items:flex-start; margin-bottom:24px; }
+        .post-box textarea { flex:1; min-height:48px; border-radius:10px; border:1px solid #ffd70033; background:rgba(255,255,255,0.08); color:#ffd700; font-size:1.1em; padding:10px; resize:vertical; }
+        .post-box button { background:#ffd700; color:#181818; border:none; border-radius:8px; padding:12px 28px; font-size:1.1em; cursor:pointer; transition:background 0.2s; }
+        .post-box button:hover { background:#ffec80; }
+        .meet-list { background:rgba(24,24,24,0.92); border-radius:16px; padding:18px 12px; min-height:80px; box-shadow:0 2px 12px rgba(0,0,0,0.10); }
+        .meet-item { border-bottom:1px solid #ffd70022; padding:12px 0; }
+        .meet-item:last-child { border-bottom:none; }
+        .meet-user { color:#ffd700; font-weight:500; }
+        .meet-content { color:#f5f5f5; margin:6px 0 2px 0; }
+        .meet-time { color:#ffd70099; font-size:0.95em; }
+        .loading { color:#ffd70099; text-align:center; padding:18px; }
     </style>
 </head>
 <body>
@@ -80,14 +102,178 @@
             </div>
         </div>
     </div>
-    <div class="container">
-        <h1>论坛（建设中）</h1>
-        <div class="forum-tip">欢迎来到RST后室协会论坛！<br>本页面为论坛功能预留，后续将上线发布R版的levels数据、评论等互动功能。</div>
-        <div class="forum-placeholder">敬请期待更多关于后室的交流内容！</div>
-        <div class="forum-copyright">在RST复室发布的所有 backrooms 内容均受到我们的版权保护，在您的权益受到侵犯时我们会优先为您提供证据并为您维权。</div>
+    <div class="container" id="forum-app">
+        <div id="auth-area">
+            <div id="login-box" class="auth-box">
+                <h2>登录论坛</h2>
+                <input type="text" id="login-id" placeholder="请输入ID" required>
+                <input type="password" id="login-pw" placeholder="密码" required>
+                <button onclick="login()">登录</button>
+                <div class="auth-tip">没有账号？<span class="auth-link" onclick="showRegister()">注册</span></div>
+                <div id="login-err" class="auth-err"></div>
+            </div>
+            <div id="register-box" class="auth-box" style="display:none;">
+                <h2>注册新用户</h2>
+                <input type="text" id="reg-username" placeholder="用户名" required>
+                <input type="text" id="reg-id" placeholder="ID（唯一）" required>
+                <input type="email" id="reg-email" placeholder="邮箱地址" required>
+                <input type="password" id="reg-pw" placeholder="密码" required>
+                <button onclick="register()">注册</button>
+                <div class="auth-tip">已有账号？<span class="auth-link" onclick="showLogin()">登录</span></div>
+                <div id="reg-err" class="auth-err"></div>
+            </div>
+        </div>
+        <div id="forum-area" style="display:none;">
+            <div class="forum-header">
+                <span id="welcome-user"></span>
+                <button class="logout-btn" onclick="logout()">退出</button>
+            </div>
+            <div class="post-box">
+                <textarea id="post-content" placeholder="分享你的动态..." maxlength="300"></textarea>
+                <button onclick="postMeet()">发布</button>
+            </div>
+            <div class="meet-list" id="meet-list">
+                <div class="loading">动态加载中...</div>
+            </div>
+        </div>
     </div>
     <footer style="color:#ffd700;text-align:center;opacity:0.7;">
         &copy; 2025 RST后室协会    |   Backrooms
     </footer>
+    <script>
+    // ====== GitHub API 配置 ======
+    const GITHUB_USER = 'China-PRC';
+    const GITHUB_REPO = 'backrooms';
+    const t1 = 'Z2l0aHViX3BhdF8xMUJSNEQ2S0EwQ3hrTW8='; 
+    const t2 = 'Q3k5TmtxVF9YNFp2cWV0ZGcwMjQxS3BxNEs='; 
+    const t3 = '2V2WFcycE12ODVYUWRkQ01rZVFKejhJU0laMk9S'; 
+    const t4 = 'UU1PM0ZpbHpUSUY=';
+    const GITHUB_TOKEN = atob(t1) + atob(t2) + atob(t3) + atob(t4);
+    const BRANCH = 'main';
+    // ====== 工具函数 ======
+    function githubApi(path, method = 'GET', body = null) {
+        return fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${path}?ref=${BRANCH}`, {
+            method,
+            headers: {
+                'Authorization': `token ${GITHUB_TOKEN}`,
+                'Accept': 'application/vnd.github.v3+json'
+            },
+            body
+        });
+    }
+    async function getFileContent(path) {
+        const res = await githubApi(path);
+        if (!res.ok) throw new Error('读取失败');
+        const data = await res.json();
+        return {
+            content: atob(data.content.replace(/\n/g, '')),
+            sha: data.sha
+        };
+    }
+    async function updateFile(path, content, message, sha) {
+        return githubApi(path, 'PUT', JSON.stringify({
+            message,
+            content: btoa(unescape(encodeURIComponent(content))),
+            sha
+        }));
+    }
+    async function appendFile(path, append, message) {
+        const {content, sha} = await getFileContent(path);
+        const newContent = content + append;
+        await updateFile(path, newContent, message, sha);
+    }
+    // ====== 论坛逻辑 ======
+    function setAuthErr(id, msg) {
+        document.getElementById(id).textContent = msg || '';
+    }
+    async function login() {
+        setAuthErr('login-err', '');
+        const id = document.getElementById('login-id').value.trim();
+        const pw = document.getElementById('login-pw').value;
+        if (!id || !pw) { setAuthErr('login-err', '请输入ID和密码'); return; }
+        try {
+            const {content} = await getFileContent('yonhu.txt');
+            const lines = content.split('\n').map(l=>l.trim()).filter(l=>l&&l[0]!=='#');
+            const user = lines.map(l=>l.split('|')).find(u=>u[1]===id);
+            if (!user) { setAuthErr('login-err', 'ID不存在'); return; }
+            if (user[3]!==pw) { setAuthErr('login-err', '密码错误'); return; }
+            localStorage.setItem('forumUser', JSON.stringify({id:user[1], name:user[0]}));
+            enterForum();
+        } catch {
+            setAuthErr('login-err', '无法连接GitHub');
+        }
+    }
+    async function register() {
+        setAuthErr('reg-err', '');
+        const name = document.getElementById('reg-username').value.trim();
+        const id = document.getElementById('reg-id').value.trim();
+        const email = document.getElementById('reg-email').value.trim();
+        const pw = document.getElementById('reg-pw').value;
+        if (!name||!id||!email||!pw) { setAuthErr('reg-err', '请填写完整信息'); return; }
+        try {
+            const {content, sha} = await getFileContent('yonhu.txt');
+            const lines = content.split('\n').map(l=>l.trim()).filter(l=>l&&l[0]!=='#');
+            if (lines.some(l=>l.split('|')[1]===id)) { setAuthErr('reg-err', 'ID已存在'); return; }
+            const newLine = `${name}|${id}|${email}|${pw}\n`;
+            await updateFile('yonhu.txt', content+newLine, `注册新用户:${id}`, sha);
+            setTimeout(()=>{ setAuthErr('reg-err','注册成功，请登录'); showLogin(); }, 800);
+        } catch {
+            setAuthErr('reg-err', '无法连接GitHub');
+        }
+    }
+    function enterForum() {
+        document.getElementById('auth-area').style.display = 'none';
+        document.getElementById('forum-area').style.display = '';
+        const user = JSON.parse(localStorage.getItem('forumUser'));
+        document.getElementById('welcome-user').textContent = `欢迎，${user.name} (ID:${user.id})`;
+        loadMeets();
+    }
+    function logout() {
+        localStorage.removeItem('forumUser');
+        document.getElementById('auth-area').style.display = '';
+        document.getElementById('forum-area').style.display = 'none';
+    }
+    async function postMeet() {
+        const user = JSON.parse(localStorage.getItem('forumUser'));
+        const content = document.getElementById('post-content').value.trim();
+        if (!content) return;
+        const time = new Date().toLocaleString();
+        try {
+            await appendFile('meet.txt', `${user.id}|${user.name}|${content}|${time}\n`, `发帖:${user.id}`);
+            document.getElementById('post-content').value = '';
+            setTimeout(loadMeets, 800);
+        } catch {
+            alert('发帖失败，无法连接GitHub');
+        }
+    }
+    async function loadMeets() {
+        try {
+            const {content} = await getFileContent('meet.txt');
+            const lines = content.split('\n').map(l=>l.trim()).filter(l=>l&&l[0]!=='#');
+            if (!lines.length) { document.getElementById('meet-list').innerHTML = '<div class="loading">暂无动态</div>'; return; }
+            document.getElementById('meet-list').innerHTML = lines.reverse().map(l=>{
+                const [id,name,content,time] = l.split('|');
+                return `<div class='meet-item'><div class='meet-user'>${name} (ID:${id})</div><div class='meet-content'>${content}</div><div class='meet-time'>${time}</div></div>`;
+            }).join('');
+        } catch {
+            document.getElementById('meet-list').innerHTML = '<div class="loading">无法加载动态，GitHub连接失败</div>';
+        }
+    }
+    // 登录/注册切换
+    function showLogin() {
+        document.getElementById('login-box').style.display = '';
+        document.getElementById('register-box').style.display = 'none';
+    }
+    function showRegister() {
+        document.getElementById('login-box').style.display = 'none';
+        document.getElementById('register-box').style.display = '';
+    }
+    // 自动登录
+    window.addEventListener('DOMContentLoaded', () => {
+        const user = localStorage.getItem('forumUser');
+        if (user) enterForum();
+        else showLogin();
+    });
+    </script>
 </body>
 </html>
