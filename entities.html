@@ -6,107 +6,8 @@
     <link rel="icon" type="image/png" href="logo.png">
     <title>实体 - RST协会|复室 Backrooms</title>
     <link rel="stylesheet" href="styles/navbar.css">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #181818 url('bj.jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: #f5f5f5;
-            font-family: 'Segoe UI', 'Arial', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .container {
-            background: rgba(24,24,24,0.85);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            text-align: center;
-            width: 100%;
-            max-width: 1200px;
-            padding: 20px;
-            box-sizing: border-box;
-            border-radius: 24px;
-        }
-        .entity-columns {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            width: 100%;
-            max-width: 100%;
-        }
-        .entity-row {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            gap: 15px;
-            width: 100%;
-            flex-wrap: wrap;
-        }
-        
-        @media (max-width: 800px) {
-            .entity-row {
-                flex-direction: row;
-                justify-content: center;
-                gap: 10px;
-            }
-        }
-        button {
-            background: transparent;
-            color: #ffd700;
-            font-size: 1.18em;
-            border: 2px solid rgba(255,215,0,0.3);
-            border-radius: 12px;
-            padding: 16px 24px;
-            cursor: pointer;
-            margin: 8px 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-            transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
-            min-width: 180px;
-            text-align: center;
-            flex: 1 1 auto;
-        }
-        button:hover {
-            background: rgba(255,215,0,0.08);
-            color: #fffbe0;
-            transform: scale(1.05);
-            box-shadow: 0 4px 16px rgba(255,215,0,0.18);
-        }
-        @media (max-width: 800px) {
-            button {
-                width: 80vw;
-                max-width: 180px;
-                padding: 14px;
-                font-size: 1.05em;
-            }
-        }
-        @media (max-width: 500px) {
-            button {
-                min-width: 160px;
-                padding: 12px;
-                font-size: 1em;
-            }
-        }
-        footer {
-            margin-top: 0 !important;
-            width: 100%;
-            text-align: center;
-            padding: 20px 0;
-        }
-        .page-title {
-            color: #ffd700;
-            font-size: 2.5em;
-            margin-bottom: 30px;
-            text-shadow: 0 0 10px rgba(255,215,0,0.3);
-            width: 100%;
-        }
-    </style>
+    <link rel="stylesheet" href="styles/site-theme.css">
+    <style>/* Page-specific rules moved to styles/site-theme.css */</style>
 </head>
 <body>
     <div class="navbar">
@@ -136,7 +37,7 @@
         </div>
     </div>
     
-    <div class="container">
+    <div class="container panel">
         <h1 class="page-title">后室实体档案</h1>
         <div class="entity-columns">
             <div class="entity-row">

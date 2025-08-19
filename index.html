@@ -6,53 +6,9 @@
     <title>RST协会|复室 Backrooms</title>
     <link rel="icon" type="image/png" href="logo.png">
     <link rel="stylesheet" href="styles/navbar.css">
+    <link rel="stylesheet" href="styles/site-theme.css">
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #181818 url('bj.jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: #f5f5f5;
-            font-family: 'Segoe UI', 'Arial', sans-serif;
-            min-height: 100vh;
-        }
-        .container {
-            background: rgba(24,24,24,0.85);
-            padding: 40px 32px;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.7);
-            text-align: center;
-            max-width: 400px;
-            margin: 96px auto 0 auto;
-        }
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 16px;
-            letter-spacing: 2px;
-        }
-        p {
-            font-size: 1.1em;
-            margin-bottom: 32px;
-        }
-        button {
-            background: #ffd700;
-            color: #181818;
-            border: none;
-            padding: 12px 32px;
-            border-radius: 8px;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        button:hover {
-            background: #ffec80;
-        }
-        .message {
-            margin-top: 24px;
-            color: #ffd700;
-            font-size: 1.2em;
-            display: none;
-        }
+        /* Page-specific styles moved to styles/site-theme.css to apply Bilibili-like UI across the site */
     </style>
 </head>
 <body>
@@ -82,7 +38,7 @@
             </div>
         </div>
     </div>
-    <div class="container" id="container">
+    <div class="container panel" id="container">
 
     </div>
 
@@ -94,7 +50,7 @@
             const container = document.getElementById('container');
             let html = '<h1>后室 Backrooms</h1>';
             html += `<p>假如你不小心从错误的地方从现实切出，你最终将坠入后室。<br>这里只有腐臭的潮湿地毯，永无止境的轰鸣。假如你听见有什么东西在附近徘徊，愿上帝保佑你吧，因为它一定也听见了你的声音......<br>你还活着吗？</p>`;
-            html += `<div id='tipsArea' style='background:rgba(24,24,24,0.7);padding:16px 12px;border-radius:10px;margin-bottom:18px;color:#ffd700;font-size:1em;'>
+            html += `<div id='tipsArea' class='panel' style='margin-bottom:12px;color:var(--primary);'>
                 <b>后室生存：</b><br>
                 1. 请保持冷静。<br>
                 2. 请收集杏仁水和食物，优先保证生存。<br>
@@ -107,7 +63,7 @@
                 9. 如果你在level中发现异常现象，请立即记录并报告。<br>
                 10. 如果你遇到我们的救援人员，你可以相信它们；但永远不要相信窃皮者。<br>
             </div>`;
-            html += `<button id='enterBtn' onclick='showRandomTip()'>进入后室</button>`;
+            html += `<button id='enterBtn' onclick='showRandomTip()' class='btn-primary' style='background:var(--primary);color:#fff;padding:10px 16px;border-radius:8px;border:none;cursor:pointer;'>进入后室</button>`;
             html += `<div class='message' id='msg'></div>`;
             container.innerHTML = html;
         }
