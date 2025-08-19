@@ -116,6 +116,7 @@
                 <h2>注册新用户</h2>
                 <input type="text" id="reg-username" placeholder="用户名" required autocomplete="username">
                 <input type="text" id="reg-id" placeholder="ID（唯一）" required>
+                <div id="reg-id-status" style="color:#ffd700; min-height:18px; margin-top:6px; font-size:0.95em;"></div>
                 <input type="email" id="reg-email" placeholder="邮箱地址" required autocomplete="email">
                 <input type="password" id="reg-pw" placeholder="密码" required autocomplete="new-password">
                 <button type="submit">注册</button>
@@ -311,7 +312,48 @@
         const user = localStorage.getItem('forumUser');
         if (user) enterForum();
         else showLogin();
+        // 绑定注册 ID 实时检测（去抖）
+        const regId = document.getElementById('reg-id');
+        if (regId) {
+            let timer = null;
+            regId.addEventListener('input', () => {
+                const statusEl = document.getElementById('reg-id-status');
+                statusEl.textContent = '';
+                if (timer) clearTimeout(timer);
+                const val = regId.value.trim();
+                if (!val) return;
+                timer = setTimeout(async () => {
+                    try {
+                        statusEl.textContent = '检查中...';
+                        const {content} = await getFileContent('yonhu.txt');
+                        const lines = content.split('\n').map(l=>l.trim()).filter(l=>l&&l[0]!=='#');
+                        const exists = lines.some(l=>l.split('|')[1]===val);
+                        statusEl.style.color = exists ? '#ff4d4f' : '#7CFC00';
+                        statusEl.textContent = exists ? 'ID不可用' : 'ID可用';
+                    } catch (err) {
+                        statusEl.style.color = '#ffd700';
+                        statusEl.textContent = '无法检查（GitHub连接失败）';
+                    }
+                }, 450);
+            });
+        }
     });
+
+    // 在 register 提交前再检查一次 ID
+    const _origRegister = register;
+    async function register_with_check() {
+        const id = document.getElementById('reg-id').value.trim();
+        try {
+            const {content} = await getFileContent('yonhu.txt');
+            const lines = content.split('\n').map(l=>l.trim()).filter(l=>l&&l[0]!=='#');
+            if (lines.some(l=>l.split('|')[1]===id)) { setAuthErr('reg-err', 'ID不可用'); return; }
+        } catch (err) {
+            // 让原始 register 去处理连接失败的错误
+        }
+        return _origRegister();
+    }
+    // 替换全局 register 为带检查的版本
+    window.register = register_with_check;
     </script>
 </body>
 </html>
