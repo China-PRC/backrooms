@@ -41,7 +41,7 @@
 
     </div>
 
-    <footer style="margin-top:40px;color:#ffd700;text-align:center;opacity:0.7;">
+    <footer class="site-footer">
         &copy; 2025 RST后室协会    |   Backrooms
     </footer>
     <script>
@@ -67,7 +67,7 @@
                         html += `<div class='guide'><div class='guide-title'>${title}</div><div class='guide-desc'>${desc}</div></div>`;
                     }
                 }
-                html += `<button onclick='showRandomTip()' style='margin-top:24px;'>随机生存建议</button><div class='guide' id='randomTip' style='display:none;'></div>`;
+                html += `<button onclick='showRandomTip()' class='btn-primary mt-18'>随机生存建议</button><div class='guide hidden' id='randomTip'></div>`;
                 container.innerHTML = html;
             } catch (e) {
                 document.getElementById('container').innerHTML = '<h1>生存指南</h1><div style="color:#ffd700;">内容加载失败，请确保通过本地服务器访问。</div>';
@@ -88,7 +88,7 @@
         function showRandomTip() {
             const tip = tips[Math.floor(Math.random() * tips.length)];
             const tipDiv = document.getElementById('randomTip');
-            tipDiv.style.display = 'block';
+            tipDiv.classList.remove('hidden');
             tipDiv.innerHTML = `<div class='guide-title'>生存建议</div><div class='guide-desc'>${tip}</div>`;
         }
         window.addEventListener('DOMContentLoaded', () => {

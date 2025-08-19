@@ -43,7 +43,7 @@
         
     </div>
     
-    <footer style="margin-top:40px;color:#ffd700;text-align:center;opacity:0.7;">
+    <footer class="site-footer">
         &copy; 2025 RST后室协会    |   Backrooms
     </footer>
     <script>
@@ -67,14 +67,14 @@
                     <textarea id='message' rows='4' placeholder='你的留言' required></textarea>
                     <button type='submit'>提交</button>
                 </form>
-                <div style="margin-top:18px;text-align:left;">
-                    <button id="regTemplateBtn" type="button">注册请求模板（点此填写）</button>
+                <div class='reg-actions'>
+                    <button id="regTemplateBtn" type="button">注册请求模板(点此填写)</button>
                 </div>
-                <div class='success' id='successMsg' style='color:#ffd700;display:none;'>感谢你的留言！</div>
+                <div class='success' id='successMsg hidden'>感谢你的留言！</div>
 
-                <!-- 注册模板弹窗（隐藏） -->
-                <div id="regPanel" style="display:none; margin-top:12px; text-align:left; background:rgba(0,0,0,0.3); padding:12px; border-radius:8px;">
-                    <div style="color:#ffd700; font-weight:600; margin-bottom:8px;">注册请求模板</div>
+                <!-- 注册模板弹窗(隐藏) -->
+                <div id="regPanel" class='reg-panel'>
+                    <div class='info-highlight'>注册请求模板</div>
                     <label>名称（用户名）</label>
                     <input type='text' id='tmpl-name' placeholder='你的用户名'>
                     <label>ID（唯一）</label>
@@ -83,21 +83,21 @@
                     <input type='email' id='tmpl-email' placeholder='你的邮箱'>
                     <label>密码（建议使用临时密码，管理员会提醒更改）</label>
                     <input type='password' id='tmpl-pw' placeholder='临时密码'>
-                    <div style="margin-top:8px; display:flex; gap:8px;">
-                        <button type='button' id='tmpl-mailto'>通过邮件发送（打开邮箱）</button>
+                    <div class='reg-actions' style='display:flex; gap:8px;'>
+                        <button type='button' id='tmpl-mailto'>通过邮件发送(打开邮箱)</button>
                         <button type='button' id='tmpl-copy'>复制到剪贴板</button>
                     </div>
-                    <div style="margin-top:8px; color:#ffd700;">安全提示：尽量使用站内私信或管理员指定的安全渠道发送账号信息；通过邮件可能在本地或邮件服务器中留下记录。</div>
+                    <div class='info-highlight'>安全提示：尽量使用站内私信或管理员指定的安全通道发送账号信息；通过邮件可能在本地或邮件服务器中留下记录。</div>
                 </div>`;
                 container.innerHTML = html;
             } catch (e) {
-                document.getElementById('container').innerHTML = '<h1>留言</h1><div style="color:#ffd700;">内容加载失败，请确保通过本地服务器访问。</div>';
+                document.getElementById('container').innerHTML = '<h1>留言</h1><div class="info-highlight">内容加载失败，请确保通过本地服务器访问。</div>';
             }
         }
         // 管理员邮箱：请在部署时替换为真实管理员邮箱地址
         const ADMIN_EMAIL = 'liujunkaiqianyuyouzhen@Outlook.com';
         function submitForm() {
-            document.getElementById('successMsg').style.display = 'block';
+            document.getElementById('successMsg').classList.remove('hidden');
             document.getElementById('contactForm').reset();
             return false;
         }
@@ -110,7 +110,7 @@
         document.addEventListener('click', (e) => {
             if (e.target && e.target.id === 'regTemplateBtn') {
                 const panel = document.getElementById('regPanel');
-                if (panel) panel.style.display = panel.style.display === 'none' ? '' : 'none';
+                if (panel) panel.classList.toggle('open');
             }
         });
 

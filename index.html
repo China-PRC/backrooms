@@ -42,7 +42,7 @@
 
     </div>
 
-    <footer style="margin-top:40px;color:#ffd700;text-align:center;opacity:0.7;">
+    <footer class="site-footer">
         &copy; 2025 RST后室协会    |   Backrooms
     </footer>
     <script>
@@ -50,8 +50,8 @@
             const container = document.getElementById('container');
             let html = '<h1>后室 Backrooms</h1>';
             html += `<p>假如你不小心从错误的地方从现实切出，你最终将坠入后室。<br>这里只有腐臭的潮湿地毯，永无止境的轰鸣。假如你听见有什么东西在附近徘徊，愿上帝保佑你吧，因为它一定也听见了你的声音......<br>你还活着吗？</p>`;
-            html += `<div id='tipsArea' class='panel' style='margin-bottom:12px;color:var(--primary);'>
-                <b>后室生存：</b><br>
+            html += `<div id='tipsArea' class='panel tips-area'>
+                    <b>后室生存：</b><br>
                 1. 请保持冷静。<br>
                 2. 请收集杏仁水和食物，优先保证生存。<br>
                 3. 请标记路径，防止迷失。<br>
@@ -63,8 +63,8 @@
                 9. 如果你在level中发现异常现象，请立即记录并报告。<br>
                 10. 如果你遇到我们的救援人员，你可以相信它们；但永远不要相信窃皮者。<br>
             </div>`;
-            html += `<button id='enterBtn' onclick='showRandomTip()' class='btn-primary' style='background:var(--primary);color:#fff;padding:10px 16px;border-radius:8px;border:none;cursor:pointer;'>进入后室</button>`;
-            html += `<div class='message' id='msg'></div>`;
+                html += `<button id='enterBtn' onclick='showRandomTip()' class='btn-primary'>进入后室</button>`;
+            html += `<div class='message hidden' id='msg'></div>`;
             container.innerHTML = html;
         }
         const homeTips = [
@@ -82,10 +82,10 @@
         function showRandomTip() {
             const tips = homeTips;
             const msg = document.getElementById('msg');
-            msg.style.display = 'block';
+            msg.classList.remove('hidden');
             msg.textContent = tips[Math.floor(Math.random() * tips.length)];
             const btn = document.getElementById('enterBtn');
-            if (btn) btn.style.display = 'none';
+            if (btn) btn.classList.add('hidden');
         }
         window.addEventListener('DOMContentLoaded', () => {
             showHomeContent();

@@ -39,34 +39,12 @@
         </div>
     </div>
 
-    <div style="margin:100px auto 0 auto;max-width:800px;text-align:center;padding:0 32px;" class="panel">
-        <input type="text" 
-            id="levelSearch" 
-            placeholder="搜索层级（如 level0 或 level ML-1）" 
-            style="padding:18px 32px;
-                font-size:1.3em;
-                border-radius:16px;
-                border:2px solid rgba(255,215,0,0.2);
-                width:400px;
-                background:rgba(255,255,255,0.7);
-                color:#181818;
-                box-shadow:0 4px 16px rgba(0,0,0,0.15);
-                transition:all 0.3s ease;">
-        <button onclick="searchLevel()" 
-            style="padding:18px 40px;
-                font-size:1.2em;
-                border-radius:16px;
-                background:#ffd700;
-                color:#181818;
-                border:none;
-                cursor:pointer;
-                margin-left:16px;
-                box-shadow:0 4px 16px rgba(0,0,0,0.15);
-                transition:all 0.2s ease;
-                font-weight:500;">搜索</button>
+    <div class="panel result-container" >
+        <input type="text" id="levelSearch" placeholder="搜索层级（如 level0 或 level ML-1）" class="input-search">
+        <button onclick="searchLevel()" class="btn-search">搜索</button>
     </div>
-    <div id="levelResult" style="margin:48px auto 0 auto;max-width:800px;padding:0 32px;"></div>
-    <footer style="margin-top:64px;color:#ffd700;text-align:center;opacity:0.7;">
+    <div id="levelResult" class="result-container"></div>
+    <footer class="site-footer">
         &copy; 2025 RST后室协会    |   Backrooms
     </footer>
     <script>
@@ -134,7 +112,7 @@
                     return;
                 }
                 const parts = line.split('|').map(p => p.trim());
-                let html = '<div style="animation:fadeIn 0.5s ease-out;">';
+                    let html = '<div class="fade-in">';
                 if (parts.length > 0) html += `<div class='level-result-main'>${parts[0]}</div>`;
                 if (parts.length > 1) html += `<div class='level-result-sub'>${parts[1]}</div>`;
                 if (parts.length > 2) {
@@ -143,12 +121,12 @@
                     for (let i = 2; i < parts.length; i++) {
                         const text = parts[i];
                         if (text.includes('难度：') || text.includes('安全性：')) {
-                            infoHtml += `<div style='color:#ffd700;font-weight:500;margin-bottom:12px;'>${text}</div>`;
+                            infoHtml += `<div class='info-highlight'>${text}</div>`;
                         } else if (text.includes('描述：') || text.includes('特征：')) {
-                            infoHtml += `<div style='color:#ffec80;font-weight:500;margin:16px 0 8px 0;'>${text.split('：')[0]}：</div>`;
-                            infoHtml += `<div style='margin-bottom:16px;'>${text.split('：')[1]}</div>`;
+                            infoHtml += `<div class='info-subtitle'>${text.split('：')[0]}：</div>`;
+                            infoHtml += `<div class='info-desc'>${text.split('：')[1]}</div>`;
                         } else {
-                            infoHtml += `<div style='margin-bottom:12px;'>${text}</div>`;
+                            infoHtml += `<div class='info-line'>${text}</div>`;
                         }
                     }
                     html += infoHtml;
