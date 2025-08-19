@@ -156,9 +156,18 @@
         const opts = { method };
         // 调试 token / header 问题
         try {
-            console.log('[githubApi] tokenInfo ->', { len: (GITHUB_TOKEN || '').length, printable: /^[\x20-\x7E]+$/.test(GITHUB_TOKEN || '') });
+            const printable = /^[\x20-\x7E]+$/.test(GITHUB_TOKEN || '');
+            console.log('[githubApi] tokenInfo ->', { len: (GITHUB_TOKEN || '').length, printable });
             const hdrs = new Headers();
-            hdrs.set('Authorization', `token ${GITHUB_TOKEN}`);
+            if (printable && (GITHUB_TOKEN || '').length > 0) {
+                try {
+                    hdrs.set('Authorization', `token ${GITHUB_TOKEN}`);
+                } catch (e) {
+                    console.error('[githubApi] Authorization header set failed ->', e);
+                }
+            } else {
+                console.warn('[githubApi] Skipping Authorization header because token contains non-printable or empty value');
+            }
             hdrs.set('Accept', 'application/vnd.github.v3+json');
             opts.headers = hdrs;
         } catch (err) {
