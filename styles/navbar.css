@@ -120,5 +120,13 @@
     margin-bottom: 18px;
 }
 
+/* hamburger icon inside nav-title */
+.nav-title .hamburger{ display:inline-block; width:22px; height:18px; margin-left:8px; vertical-align:middle; }
+.nav-title .hamburger i{ display:block; height:2px; background:currentColor; margin:3px 0; border-radius:2px; }
+
+/* open state: show dropdown regardless of hover */
+.nav-group.open .nav-dropdown{ transition-delay:0s; opacity:1; transform:translate(-50%,0); pointer-events:auto; margin-bottom:18px; }
+.nav-group.open .nav-title .hamburger{ display:none; }
+
 /* 通用样式 */
 body { margin:0; padding:0; color:#0b1220; font-family:'Segoe UI','Arial',sans-serif; min-height:100vh; }
