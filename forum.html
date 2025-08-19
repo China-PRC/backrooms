@@ -153,13 +153,18 @@
     // ====== 工具函数 ======
     function githubApi(path, method = 'GET', body = null) {
         const url = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${path}?ref=${BRANCH}`;
-        const opts = {
-            method,
-            headers: {
-                'Authorization': `token ${GITHUB_TOKEN}`,
-                'Accept': 'application/vnd.github.v3+json'
-            }
-        };
+        const opts = { method };
+        // 调试 token / header 问题
+        try {
+            console.log('[githubApi] tokenInfo ->', { len: (GITHUB_TOKEN || '').length, printable: /^[\x20-\x7E]+$/.test(GITHUB_TOKEN || '') });
+            const hdrs = new Headers();
+            hdrs.set('Authorization', `token ${GITHUB_TOKEN}`);
+            hdrs.set('Accept', 'application/vnd.github.v3+json');
+            opts.headers = hdrs;
+        } catch (err) {
+            console.error('[githubApi] header construction error ->', err);
+            throw err;
+        }
         // fetch 不允许在 GET/HEAD 请求中带 body，只有在明确提供 body 且方法非 GET/HEAD 时附加
         if (body != null && method !== 'GET' && method !== 'HEAD') {
             opts.body = body;
