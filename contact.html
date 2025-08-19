@@ -119,12 +119,35 @@
                     <textarea id='message' rows='4' placeholder='你的留言' required></textarea>
                     <button type='submit'>提交</button>
                 </form>
-                <div class='success' id='successMsg' style='color:#ffd700;display:none;'>感谢你的留言！</div>`;
+                <div style="margin-top:18px;text-align:left;">
+                    <button id="regTemplateBtn" type="button">注册请求模板（点此填写）</button>
+                </div>
+                <div class='success' id='successMsg' style='color:#ffd700;display:none;'>感谢你的留言！</div>
+
+                <!-- 注册模板弹窗（隐藏） -->
+                <div id="regPanel" style="display:none; margin-top:12px; text-align:left; background:rgba(0,0,0,0.3); padding:12px; border-radius:8px;">
+                    <div style="color:#ffd700; font-weight:600; margin-bottom:8px;">注册请求模板</div>
+                    <label>名称（用户名）</label>
+                    <input type='text' id='tmpl-name' placeholder='你的用户名'>
+                    <label>ID（唯一）</label>
+                    <input type='text' id='tmpl-id' placeholder='想要的唯一 ID'>
+                    <label>邮箱</label>
+                    <input type='email' id='tmpl-email' placeholder='你的邮箱'>
+                    <label>密码（建议使用临时密码，管理员会提醒更改）</label>
+                    <input type='password' id='tmpl-pw' placeholder='临时密码'>
+                    <div style="margin-top:8px; display:flex; gap:8px;">
+                        <button type='button' id='tmpl-mailto'>通过邮件发送（打开邮箱）</button>
+                        <button type='button' id='tmpl-copy'>复制到剪贴板</button>
+                    </div>
+                    <div style="margin-top:8px; color:#ffd700;">安全提示：尽量使用站内私信或管理员指定的安全渠道发送账号信息；通过邮件可能在本地或邮件服务器中留下记录。</div>
+                </div>`;
                 container.innerHTML = html;
             } catch (e) {
                 document.getElementById('container').innerHTML = '<h1>留言</h1><div style="color:#ffd700;">内容加载失败，请确保通过本地服务器访问。</div>';
             }
         }
+        // 管理员邮箱：请在部署时替换为真实管理员邮箱地址
+        const ADMIN_EMAIL = 'admin@example.com';
         function submitForm() {
             document.getElementById('successMsg').style.display = 'block';
             document.getElementById('contactForm').reset();
@@ -134,6 +157,48 @@
             // ...existing code...
         });
         window.onload = loadContactContent;
+
+        // 绑定注册模板按钮事件（在内容加载后）
+        document.addEventListener('click', (e) => {
+            if (e.target && e.target.id === 'regTemplateBtn') {
+                const panel = document.getElementById('regPanel');
+                if (panel) panel.style.display = panel.style.display === 'none' ? '' : 'none';
+            }
+        });
+
+        // 处理 mailto 与复制逻辑：事件委托，等 DOM 可用
+        document.addEventListener('click', async (e) => {
+            if (!e.target) return;
+            if (e.target.id === 'tmpl-mailto') {
+                const name = document.getElementById('tmpl-name').value.trim();
+                const id = document.getElementById('tmpl-id').value.trim();
+                const email = document.getElementById('tmpl-email').value.trim();
+                const pw = document.getElementById('tmpl-pw').value;
+                const subject = encodeURIComponent('注册请求');
+                const body = encodeURIComponent(`请为我创建账号：\n名称：${name}\nID：${id}\n邮箱：${email}\n密码：${pw}\n\n请管理员确认后回复。`);
+                // 打开本地默认邮件客户端，用户需确认发送；注意替换 ADMIN_EMAIL
+                location.href = `mailto:${ADMIN_EMAIL}?subject=${subject}&body=${body}`;
+            }
+            if (e.target.id === 'tmpl-copy') {
+                const name = document.getElementById('tmpl-name').value.trim();
+                const id = document.getElementById('tmpl-id').value.trim();
+                const email = document.getElementById('tmpl-email').value.trim();
+                const pw = document.getElementById('tmpl-pw').value;
+                const text = `注册请求\n名称：${name}\nID：${id}\n邮箱：${email}\n密码：${pw}\n`;
+                try {
+                    await navigator.clipboard.writeText(text);
+                    alert('已复制到剪贴板，请通过管理员指定的安全渠道粘贴并发送。');
+                } catch (err) {
+                    // 备选：使用旧的 document.execCommand
+                    const ta = document.createElement('textarea');
+                    ta.value = text;
+                    document.body.appendChild(ta);
+                    ta.select();
+                    try { document.execCommand('copy'); alert('已复制到剪贴板（fallback）。'); } catch(e){ alert('复制失败，请手动选择并复制文本。'); }
+                    document.body.removeChild(ta);
+                }
+            }
+        });
     </script>
 </body>
 </html>

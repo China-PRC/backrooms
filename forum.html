@@ -57,7 +57,9 @@
         .auth-box button { width:100%; background:#ffd700; color:#181818; border:none; border-radius:8px; padding:12px 0; font-size:1.1em; margin-top:12px; cursor:pointer; transition:background 0.2s; }
         .auth-box button:hover { background:#ffec80; }
         .auth-tip { color:#ffd700bb; margin-top:10px; font-size:0.98em; }
-        .auth-link { color:#ffec80; cursor:pointer; text-decoration:underline; }
+    .auth-link { color:#ffec80; cursor:pointer; text-decoration:underline; }
+    /* Make interactive elements accessible: when used on buttons, remove default button styles */
+    button.auth-link { background:none; border:none; padding:0; margin:0; font:inherit; color:inherit; text-decoration:underline; cursor:pointer; }
         .auth-err { color:#ff4d4f; margin-top:8px; min-height:22px; }
         .forum-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
         .logout-btn { background:rgba(255,215,0,0.12); color:#ffd700; border:none; border-radius:8px; padding:8px 18px; font-size:1em; cursor:pointer; transition:background 0.2s; }
@@ -109,20 +111,20 @@
                 <input type="text" id="login-id" placeholder="请输入ID" required autocomplete="username">
                 <input type="password" id="login-pw" placeholder="密码" required autocomplete="current-password">
                 <button type="submit">登录</button>
-                <div class="auth-tip">没有账号？<span class="auth-link" onclick="showRegister()">注册</span></div>
+                <div class="auth-tip">没有账号？如需注册请 <a href="contact.html" class="auth-link">联系管理员</a>，并在联系时提供：名称、ID、邮箱、密码</div>
                 <div id="login-err" class="auth-err"></div>
             </form>
-            <form id="register-box" class="auth-box" style="display:none;" onsubmit="register();return false;">
-                <h2>注册新用户</h2>
-                <input type="text" id="reg-username" placeholder="用户名" required autocomplete="username">
-                <input type="text" id="reg-id" placeholder="ID（唯一）" required>
-                <div id="reg-id-status" style="color:#ffd700; min-height:18px; margin-top:6px; font-size:0.95em;"></div>
-                <input type="email" id="reg-email" placeholder="邮箱地址" required autocomplete="email">
-                <input type="password" id="reg-pw" placeholder="密码" required autocomplete="new-password">
-                <button type="submit">注册</button>
-                <div class="auth-tip">已有账号？<span class="auth-link" onclick="showLogin()">登录</span></div>
-                <div id="reg-err" class="auth-err"></div>
-            </form>
+            <div id="register-box" class="auth-box" style="display:none; text-align:left;">
+                <h2>注册已关闭</h2>
+                <div class="forum-placeholder" style="padding:8px 0 0 0;">当前论坛前端注册已关闭。若需注册，请在 <a href="contact.html" class="auth-link">联系我们</a>，并在消息中包含以下信息：</div>
+                <ul style="color:#f5f5f5; opacity:0.9; margin-top:12px;">
+                    <li>名称（用户名）</li>
+                    <li>ID（请指定一个唯一 ID）</li>
+                    <li>邮箱地址</li>
+                    <li>密码（管理员将为您注册并回复）</li>
+                </ul>
+                <div class="forum-placeholder" style="margin-top:8px;">管理员确认并手动为您创建账号后，您会收到通知。</div>
+            </div>
         </div>
         <div id="forum-area" style="display:none;">
             <div class="forum-header">
@@ -239,25 +241,7 @@
             setAuthErr('login-err', '无法连接GitHub: ' + (err && err.message ? err.message : String(err)));
         }
     }
-    async function register() {
-        setAuthErr('reg-err', '');
-        const name = document.getElementById('reg-username').value.trim();
-        const id = document.getElementById('reg-id').value.trim();
-        const email = document.getElementById('reg-email').value.trim();
-        const pw = document.getElementById('reg-pw').value;
-        if (!name||!id||!email||!pw) { setAuthErr('reg-err', '请填写完整信息'); return; }
-        try {
-            const {content, sha} = await getFileContent('yonhu.txt');
-            const lines = content.split('\n').map(l=>l.trim()).filter(l=>l&&l[0]!=='#');
-            if (lines.some(l=>l.split('|')[1]===id)) { setAuthErr('reg-err', 'ID已存在'); return; }
-            const newLine = `${name}|${id}|${email}|${pw}\n`;
-            await updateFile('yonhu.txt', content+newLine, `注册新用户:${id}`, sha);
-            setTimeout(()=>{ setAuthErr('reg-err','注册成功，请登录'); showLogin(); }, 800);
-        } catch (err) {
-            console.error('[register] error ->', err);
-            setAuthErr('reg-err', '无法连接GitHub: ' + (err && err.message ? err.message : String(err)));
-        }
-    }
+    // 前端注册已关闭：所有注册相关操作均由管理员在服务器/仓库端手动处理。
     function enterForum() {
         document.getElementById('auth-area').style.display = 'none';
         document.getElementById('forum-area').style.display = '';
@@ -312,48 +296,10 @@
         const user = localStorage.getItem('forumUser');
         if (user) enterForum();
         else showLogin();
-        // 绑定注册 ID 实时检测（去抖）
-        const regId = document.getElementById('reg-id');
-        if (regId) {
-            let timer = null;
-            regId.addEventListener('input', () => {
-                const statusEl = document.getElementById('reg-id-status');
-                statusEl.textContent = '';
-                if (timer) clearTimeout(timer);
-                const val = regId.value.trim();
-                if (!val) return;
-                timer = setTimeout(async () => {
-                    try {
-                        statusEl.textContent = '检查中...';
-                        const {content} = await getFileContent('yonhu.txt');
-                        const lines = content.split('\n').map(l=>l.trim()).filter(l=>l&&l[0]!=='#');
-                        const exists = lines.some(l=>l.split('|')[1]===val);
-                        statusEl.style.color = exists ? '#ff4d4f' : '#7CFC00';
-                        statusEl.textContent = exists ? 'ID不可用' : 'ID可用';
-                    } catch (err) {
-                        statusEl.style.color = '#ffd700';
-                        statusEl.textContent = '无法检查（GitHub连接失败）';
-                    }
-                }, 450);
-            });
-        }
+    // 注册功能已关闭，前端不再进行 ID 实时检查。
     });
 
-    // 在 register 提交前再检查一次 ID
-    const _origRegister = register;
-    async function register_with_check() {
-        const id = document.getElementById('reg-id').value.trim();
-        try {
-            const {content} = await getFileContent('yonhu.txt');
-            const lines = content.split('\n').map(l=>l.trim()).filter(l=>l&&l[0]!=='#');
-            if (lines.some(l=>l.split('|')[1]===id)) { setAuthErr('reg-err', 'ID不可用'); return; }
-        } catch (err) {
-            // 让原始 register 去处理连接失败的错误
-        }
-        return _origRegister();
-    }
-    // 替换全局 register 为带检查的版本
-    window.register = register_with_check;
+    // 不再导出或绑定注册函数到全局，前端注册已关闭。
     </script>
 </body>
 </html>
