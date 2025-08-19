@@ -25,28 +25,6 @@
 }
 
 .nav-title {
-    color: #ffd700;
-    text-decoration: none;
-    font-size: 1.18em;
-    font-weight: bold;
-    padding: 14px 28px;
-    cursor: pointer;
-    transition: color 0.2s, background 0.2s, box-shadow 0.2s;
-    display: block;
-    background: rgba(24,24,24,0.7);
-    border: none;
-    border-radius: 14px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    position: relative;
-}
-
-.nav-title:hover, .nav-title:focus {
-    color: #181818;
-    background: linear-gradient(90deg, #ffd700 0%, #ffec80 100%);
-    box-shadow: 0 4px 16px rgba(255,215,0,0.18);
-    outline: none;
-}
-.nav-title {
     color: var(--primary);
     text-decoration: none;
     font-size: 1.18em;
@@ -66,16 +44,7 @@
     outline: none;
 }
 
-.nav-title::after {
-    content: '';
-    display: block;
-    width: 80%;
-    height: 2px;
-    margin: 8px auto 0 auto;
-    background: linear-gradient(90deg, #ffd700 0%, #ffec80 100%);
-    opacity: 0.12;
-    border-radius: 1px;
-}
+
 
 .nav-dropdown {
     position: absolute;
@@ -88,8 +57,8 @@
     text-align: left;
     opacity: 0;
     pointer-events: none;
-    transform: translate(-50%, -12px);
-    transition: opacity 0.22s cubic-bezier(.4,0,.2,1), transform 0.22s cubic-bezier(.4,0,.2,1);
+    transform: translate(-50%, -8px);
+    transition: opacity 0.32s cubic-bezier(.2,0,.2,1), transform 0.32s cubic-bezier(.2,0,.2,1);
     padding: 8px 0 8px 0;
     display: flex;
     flex-direction: column;
@@ -141,25 +110,13 @@
 }
 
 .nav-group:hover .nav-dropdown,
-.nav-group:focus-within .nav-dropdown {
+.nav-group:focus-within .nav-dropdown,
+.nav-dropdown:hover {
     opacity: 1;
     transform: translate(-50%, 0);
     pointer-events: auto;
-    margin-bottom: 22px;
+    margin-bottom: 18px;
 }
 
 /* 通用样式 */
-body {
-    margin: 0;
-    padding: 0;
-    color: #f5f5f5;
-    font-family: 'Segoe UI', 'Arial', sans-serif;
-    min-height: 100vh;
-}
-body {
-    margin: 0;
-    padding: 0;
-    color: #0b1220;
-    font-family: 'Segoe UI', 'Arial', sans-serif;
-    min-height: 100vh;
-}
+body { margin:0; padding:0; color:#0b1220; font-family:'Segoe UI','Arial',sans-serif; min-height:100vh; }
