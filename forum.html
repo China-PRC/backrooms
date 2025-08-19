@@ -158,9 +158,12 @@
             headers: {
                 'Authorization': `token ${GITHUB_TOKEN}`,
                 'Accept': 'application/vnd.github.v3+json'
-            },
-            body
+            }
         };
+        // fetch 不允许在 GET/HEAD 请求中带 body，只有在明确提供 body 且方法非 GET/HEAD 时附加
+        if (body != null && method !== 'GET' && method !== 'HEAD') {
+            opts.body = body;
+        }
         console.log('[githubApi] request ->', { url, opts });
         // 返回 fetch Promise，同时在 then/catch 打印响应以便排查网络是否发起/失败原因
         return fetch(url, opts)
