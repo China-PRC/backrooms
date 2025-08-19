@@ -110,10 +110,8 @@
     outline: none;
 }
 
-.nav-group:hover .nav-dropdown,
-.nav-group:focus-within .nav-dropdown,
-.nav-dropdown:hover {
-    transition-delay: 0s; /* show immediately while hovered */
+.nav-group.open .nav-dropdown {
+    transition-delay: 0s; /* show immediately when opened */
     opacity: 1;
     transform: translate(-50%, 0);
     pointer-events: auto;
@@ -121,12 +119,18 @@
 }
 
 /* hamburger icon inside nav-title */
-.nav-title .hamburger{ display:inline-block; width:22px; height:18px; margin-left:8px; vertical-align:middle; }
-.nav-title .hamburger i{ display:block; height:2px; background:currentColor; margin:3px 0; border-radius:2px; }
+.nav-title .hamburger{ display:inline-block; width:22px; height:18px; margin-left:8px; vertical-align:middle; cursor:pointer; }
+.nav-title .hamburger i{ display:block; height:2px; background:currentColor; margin:3px 0; border-radius:2px; transition:transform .18s ease, opacity .18s ease; }
 
-/* open state: show dropdown regardless of hover */
+/* hover animation for hamburger */
+.nav-title .hamburger:hover i:nth-child(1){ transform: translateY(-3px); }
+.nav-title .hamburger:hover i:nth-child(2){ transform: scaleX(1.15); }
+.nav-title .hamburger:hover i:nth-child(3){ transform: translateY(3px); }
+.nav-title .hamburger:active i{ transform: scaleX(0.9); }
+
+/* open state: show dropdown regardless of hover and smoothly hide hamburger */
 .nav-group.open .nav-dropdown{ transition-delay:0s; opacity:1; transform:translate(-50%,0); pointer-events:auto; margin-bottom:18px; }
-.nav-group.open .nav-title .hamburger{ display:none; }
+.nav-group.open .nav-title .hamburger{ opacity:0; transform:translateY(-4px) scale(.95); pointer-events:none; transition:opacity .22s, transform .22s; }
 
 /* 通用样式 */
 body { margin:0; padding:0; color:#0b1220; font-family:'Segoe UI','Arial',sans-serif; min-height:100vh; }
