@@ -1,4 +1,5 @@
     <script>
+
         async function searchLevel() {
             const inputRaw = document.getElementById('levelSearch').value.trim();
             const input = inputRaw.toLowerCase();
@@ -10,15 +11,19 @@
                 isML = true;
                 fileName = 'tolevels/levelml.txt';
                 const match = inputRaw.match(/level\s*ml[- ]?(\d+)/i);
-                if (match) num = parseInt(match[1], 10);
-                else {
+                if (match) {
+                    num = parseInt(match[1], 10);
+                } else {
                     document.getElementById('levelResult').innerHTML = '<span class="info-highlight">请输入正确的ML层级关键词（如 level ML11 或 level ML-11）</span>';
                     return;
                 }
             } else if (/^level[- ]?\d+$/.test(input)) {
                 const match = input.match(/level[- ]?(\d+)/);
                 if (match) num = parseInt(match[1], 10);
-                else { document.getElementById('levelResult').innerHTML = '<span class="info-highlight">请输入正确的层级关键词（如 level0 或 level-0）</span>'; return; }
+                else {
+                    document.getElementById('levelResult').innerHTML = '<span class="info-highlight">请输入正确的层级关键词（如 level0 或 level-0）</span>';
+                    return;
+                }
             } else {
                 document.getElementById('levelResult').innerHTML = '<span class="info-highlight">请输入正确的层级关键词（如 level0 或 level-0）</span>';
                 return;
@@ -45,7 +50,10 @@
                     if (matchNum === num) { line = lines[i]; found = true; break; }
                 }
 
-                if (!found) { document.getElementById('levelResult').innerHTML = '<span class="info-highlight">未找到对应层级！</span>'; return; }
+                if (!found) {
+                    document.getElementById('levelResult').innerHTML = '<span class="info-highlight">未找到对应层级！</span>';
+                    return;
+                }
 
                 const parts = line.split('|').map(p => p.trim());
                 let html = '<div class="fade-in">';
@@ -74,9 +82,66 @@
                 document.getElementById('levelResult').innerHTML = '<span class="info-highlight">未找到层级数据文件！</span>';
             }
         }
+                    let firstPart = lines[i].split('|')[0].toLowerCase();
+                    let matchNum = -1;
+                    if (isML) {
+
+                        const mlMatch = firstPart.match(/ml[- ]?(\d+)/i);
+                        if (mlMatch) matchNum = parseInt(mlMatch[1], 10);
+                    } else {
+
+                        const lvlMatch = firstPart.match(/level[- ]?(\d+)/i);
+                        if (lvlMatch) matchNum = parseInt(lvlMatch[1], 10);
+                    }
+                    if (matchNum === num) {
+                        line = lines[i];
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    document.getElementById('levelResult').innerHTML = '<span class="info-highlight">未找到对应层级！</span>';
+                    return;
+                }
+                const parts = line.split('|').map(p => p.trim());
+                    let html = '<div class="fade-in">';
+                if (parts.length > 0) html += `<div class='level-result-main'>${parts[0]}</div>`;
+                if (parts.length > 1) html += `<div class='level-result-sub'>${parts[1]}</div>`;
+                if (parts.length > 2) {
+                    html += `<div class='level-result-desc'>`;
+                    let infoHtml = '';
+                    for (let i = 2; i < parts.length; i++) {
+                        const text = parts[i];
+                        if (text.includes('难度：') || text.includes('安全性：')) {
+                            infoHtml += `<div class='info-highlight'>${text}</div>`;
+                        } else if (text.includes('描述：') || text.includes('特征：')) {
+                            infoHtml += `<div class='info-subtitle'>${text.split('：')[0]}：</div>`;
+                            infoHtml += `<div class='info-desc'>${text.split('：')[1]}</div>`;
+                        } else {
+                            infoHtml += `<div class='info-line'>${text}</div>`;
+                        }
+                    }
+                    html += infoHtml;
+                    html += '</div>';
++
++                // use existing .fade-in utility class from styles/site-theme.css
++                document.getElementById('levelResult').innerHTML = html;
++
+                document.head.appendChild(style);
+                document.getElementById('levelResult').innerHTML = html;
+            } catch {
+                document.getElementById('levelResult').innerHTML = '<span style="color:#ffd700;">未找到层级数据文件！</span>';
+            }
+        }
         window.addEventListener('DOMContentLoaded', () => {
             const input = document.getElementById('levelSearch');
-            if (input) input.addEventListener('keydown', function(e) { if (e.key === 'Enter') searchLevel(); });
+            if (input) {
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        searchLevel();
+                    }
+                });
+            }
         });
 
     </script>
