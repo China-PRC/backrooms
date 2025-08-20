@@ -46,19 +46,19 @@
                 <div class="auth-tip">没有账号？如需注册请 <a href="contact.html" class="auth-link">联系管理员</a>，并在联系时提供：名称、ID、邮箱、密码</div>
                 <div id="login-err" class="auth-err"></div>
             </form>
-            <div id="register-box" class="auth-box" style="display:none; text-align:left;">
+            <div id="register-box" class="auth-box hidden text-left">
                 <h2>注册已关闭</h2>
-                <div class="forum-placeholder" style="padding:8px 0 0 0;">当前论坛前端注册已关闭。若需注册，请在 <a href="contact.html" class="auth-link">联系我们</a>，并在消息中包含以下信息：</div>
-                <ul style="color:#f5f5f5; opacity:0.9; margin-top:12px;">
+                <div class="forum-placeholder p-top-8">当前论坛前端注册已关闭。若需注册，请在 <a href="contact.html" class="auth-link">联系我们</a>，并在消息中包含以下信息：</div>
+                <ul class="muted-list">
                     <li>名称（用户名）</li>
                     <li>ID（请指定一个唯一 ID）</li>
                     <li>邮箱地址</li>
                     <li>密码（管理员将为您注册并回复）</li>
                 </ul>
-                <div class="forum-placeholder" style="margin-top:8px;">管理员确认并手动为您创建账号后，您会收到通知。</div>
+                <div class="forum-placeholder mt-8">管理员确认并手动为您创建账号后，您会收到通知。</div>
             </div>
         </div>
-        <div id="forum-area" style="display:none;">
+    <div id="forum-area" class="hidden">
             <div class="forum-header">
                 <span id="welcome-user"></span>
                 <button class="logout-btn" onclick="logout()">退出</button>

@@ -47,7 +47,7 @@
     <script>
         function checkServer() {
             if (location.protocol === 'file:') {
-                document.getElementById('container').innerHTML = '<h1>生存指南</h1><div style="color:#ffd700;">检测到您直接用文件方式打开网页。请使用本地服务器（如 VS Code Live Server、Python SimpleHTTPServer）访问本网站，否则内容无法正常加载。</div>';
+                document.getElementById('container').innerHTML = '<h1>生存指南</h1><div class="info-highlight">检测到您直接用文件方式打开网页。请使用本地服务器（如 VS Code Live Server、Python SimpleHTTPServer）访问本网站，否则内容无法正常加载。</div>';
                 return false;
             }
             return true;
@@ -70,7 +70,7 @@
                 html += `<button onclick='showRandomTip()' class='btn-primary mt-18'>随机生存建议</button><div class='guide hidden' id='randomTip'></div>`;
                 container.innerHTML = html;
             } catch (e) {
-                document.getElementById('container').innerHTML = '<h1>生存指南</h1><div style="color:#ffd700;">内容加载失败，请确保通过本地服务器访问。</div>';
+                document.getElementById('container').innerHTML = '<h1>生存指南</h1><div class="info-highlight">内容加载失败，请确保通过本地服务器访问。</div>';
             }
         }
         const tips = [

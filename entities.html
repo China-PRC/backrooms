@@ -59,13 +59,13 @@
         </div>
     </div>
     
-    <footer style="color:#ffd700;text-align:center;opacity:0.7;">
+    <footer class="site-footer">
         &copy; 2025 RST后室协会    |   Backrooms
     </footer>
     <script>
         function checkServer() {
             if (location.protocol === 'file:') {
-                document.getElementById('container').innerHTML = '<h1>怪物百科</h1><div style="color:#ffd700;">检测到您直接用文件方式打开网页。请使用本地服务器（如 VS Code Live Server、Python SimpleHTTPServer）访问本网站，否则内容无法正常加载。</div>';
+                document.getElementById('container').innerHTML = '<h1>怪物百科</h1><div class="info-highlight">检测到您直接用文件方式打开网页。请使用本地服务器（如 VS Code Live Server、Python SimpleHTTPServer）访问本网站，否则内容无法正常加载。</div>';
                 return false;
             }
             return true;

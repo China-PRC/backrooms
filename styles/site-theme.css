@@ -7,6 +7,11 @@
     --radius:12px;
     --accent: var(--primary);
 }
+
+/* derived helpers */
+:root{
+    --primary-rgb: 0,161,233; /* rgb of #00a1e9 */
+}
 body{
     margin:0; padding:0; background:var(--bg); font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; color:#111827; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; min-height:100vh;
 }
@@ -63,7 +68,7 @@ body{
 .btn-primary{ background:var(--primary); color:#fff; padding:10px 16px; border-radius:8px; border:none; cursor:pointer; }
 .page-title{ clear:both; }
 .site-footer{ color:var(--primary); text-align:center; opacity:0.85; margin-top:40px; }
-.highlight-gold{ color:var(--primary); }
+.highlight-primary{ color:var(--primary); }
 .tips-area{ margin-bottom:12px; color:var(--primary); }
 .input-search{ padding:18px 32px; font-size:1.3em; border-radius:16px; border:2px solid rgba(0,161,233,0.12); width:400px; background:rgba(255,255,255,0.9); color:#181818; transition:all 0.3s ease; }
 .btn-search{ padding:18px 40px; font-size:1.2em; border-radius:16px; background:var(--primary); color:#fff; border:none; cursor:pointer; margin-left:16px; font-weight:500; }
@@ -72,12 +77,25 @@ body{
 /* Utility helpers for migrated inline styles */
 .hidden{ display:none !important; }
 .fade-in{ animation:fadeIn 0.5s ease-out; }
-.info-highlight{ color:#ffd700; font-weight:500; margin-bottom:12px; }
-.info-subtitle{ color:#ffec80; font-weight:500; margin:16px 0 8px 0; }
+.info-highlight{ color:var(--primary); font-weight:500; margin-bottom:12px; }
+.info-subtitle{ color:rgba(var(--primary-rgb),0.85); font-weight:500; margin:16px 0 8px 0; }
 .info-desc{ margin-bottom:16px; }
 .info-line{ margin-bottom:12px; }
 .highlight-soft{ color:#ffec80; }
 .reg-actions{ margin-top:18px; text-align:left; }
+.reg-actions.row{ display:flex; gap:8px; }
+.muted-list{ color:var(--muted); opacity:0.9; margin-top:12px; }
+.p-top-8{ padding-top:8px; }
+.mt-8{ margin-top:8px; }
+
+/* accessibility helpers */
+.sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
+.visually-hidden{ position:absolute !important; clip: rect(1px, 1px, 1px, 1px); padding:0 !important; border:0 !important; height:1px !important; width:1px !important; overflow:hidden; }
+
+/* reset button look */
+.btn-reset{ background:transparent; border:none; padding:0; margin:0; cursor:pointer; }
+.reg-actions.row{ display:flex; gap:8px; }
+.muted-list{ color:var(--muted); opacity:0.9; margin-top:12px; }
 .text-left{ text-align:left; }
 .mt-18{ margin-top:18px; }
 .reg-panel.open{ display:block; }
